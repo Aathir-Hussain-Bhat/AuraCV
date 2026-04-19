@@ -3,51 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AuraCV | Identity Engine</title>
+    <title>AuraCV | Unparalleled Identity Engine</title>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Outfit (UI) & Roboto (ATS PDF) -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Outfit (UI) & Inter (ATS PDF) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================
-           🎨 BHAT SOFT MINIMAL DESIGN SYSTEM
+           🌌 LIQUID AURA DESIGN SYSTEM
            ========================================= */
         :root {
-            --bg-color: #f5f5f5;
-            --text-main: #222222;
-            --text-muted: #777777;
-            --accent: #000000;
-            --accent-gold: rgba(255, 215, 0, 0.4);
+            --bg-base: #f4f5f7;
+            --text-main: #1a1a1a;
+            --text-muted: #6b6b6b;
+            --accent: #0f0f0f;
+            --accent-gold: rgba(255, 215, 0, 0.6);
+            --gold-solid: #d4af37;
             
-            --shadow-out: -6px -6px 12px #ffffff, 6px 6px 12px #d1d1d1;
-            --shadow-in: inset -6px -6px 12px #ffffff, inset 6px 6px 12px #d1d1d1;
+            --shadow-soft: -8px -8px 16px rgba(255, 255, 255, 0.8), 8px 8px 16px rgba(209, 213, 219, 0.6);
+            --shadow-inset: inset -6px -6px 12px rgba(255, 255, 255, 0.8), inset 6px 6px 12px rgba(209, 213, 219, 0.6);
             
-            --border-radius: 20px;
-            --btn-radius: 14px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 24px;
+            --btn-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; font-weight: 300; }
+        
+        body { 
+            background-color: var(--bg-base); color: var(--text-main); overflow-x: hidden; font-weight: 300;
+            overscroll-behavior-y: none;
+        }
 
-        .neumorphic { background: var(--bg-color); box-shadow: var(--shadow-out); border-radius: var(--border-radius); }
-        .neumorphic-inset { background: var(--bg-color); box-shadow: var(--shadow-in); border-radius: var(--btn-radius); }
+        /* Ambient Background Aura */
+        .ambient-aura {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(0, 0, 0, 0.03), transparent 30%);
+            animation: breatheAura 12s infinite alternate ease-in-out;
+        }
+        @keyframes breatheAura { 0% { transform: scale(1) translate(0px, 0px); } 100% { transform: scale(1.1) translate(20px, -20px); } }
+
+        .neumorphic { 
+            background: linear-gradient(145deg, #ffffff, #e6e7e9);
+            box-shadow: var(--shadow-soft); border-radius: var(--border-radius); border: 1px solid rgba(255,255,255,0.6);
+        }
+        .neumorphic-inset { 
+            background: var(--bg-base); box-shadow: var(--shadow-inset); border-radius: var(--btn-radius); border: 1px solid rgba(255,255,255,0.4);
+        }
 
         .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.5s ease forwards; }
-        .slide-up { animation: slideUp 0.5s ease forwards; }
+
+        /* Slide Transitions */
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .slide-in-right { animation: slideInRight 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .slide-in-left { animation: slideInLeft 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .fade-out { animation: fadeOut 0.5s ease forwards; pointer-events: none; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        h1, h2, h3 { font-weight: 500; color: var(--accent); }
-        h1 { font-size: 1.8rem; margin-bottom: 10px; }
-        p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+        h1, h2, h3 { font-weight: 500; color: var(--accent); letter-spacing: -0.5px; }
+        h1 { font-size: 2rem; margin-bottom: 10px; }
+        p { font-size: 1rem; color: var(--text-muted); line-height: 1.5; }
 
-        #app { max-width: 600px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
+        #app { max-width: 600px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 100px; }
         .screen { padding: 24px; min-height: 100vh; }
 
         /* =========================================
@@ -55,304 +80,455 @@
            ========================================= */
         #screen-loading {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color); z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: var(--bg-base); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-        .loader-aura {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: linear-gradient(135deg, #222, #000);
-            box-shadow: 0 0 20px var(--accent-gold);
-            animation: pulseAura 1.5s infinite ease-in-out;
+        .loader-ring {
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--accent); border-bottom-color: var(--gold-solid);
+            animation: spin 1.5s linear infinite, glow 2s ease-in-out infinite alternate;
         }
-        @keyframes pulseAura {
-            0% { transform: scale(0.8); opacity: 0.6; box-shadow: 0 0 10px var(--accent-gold); }
-            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 40px var(--accent-gold); }
-            100% { transform: scale(0.8); opacity: 0.6; box-shadow: 0 0 10px var(--accent-gold); }
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes glow { 0% { box-shadow: 0 0 10px var(--accent-gold); } 100% { box-shadow: 0 0 30px var(--accent-gold); } }
 
         /* =========================================
            🎛️ UI COMPONENTS
            ========================================= */
         .btn {
-            display: block; width: 100%; padding: 15px; border: none; background: var(--bg-color);
-            box-shadow: var(--shadow-out); border-radius: var(--btn-radius); color: var(--text-main);
-            font-size: 1rem; font-weight: 500; cursor: pointer; transition: var(--transition); text-align: center; margin-bottom: 15px;
+            display: block; width: 100%; padding: 16px; border: none; background: transparent;
+            box-shadow: var(--shadow-soft); border-radius: var(--btn-radius); color: var(--text-main);
+            font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: var(--transition); 
+            text-align: center; margin-bottom: 15px; position: relative; overflow: hidden;
         }
-        .btn:active { box-shadow: var(--shadow-in); }
-        .btn-primary { background: var(--accent); color: white; box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
-        .btn-primary:active { transform: translateY(2px); }
-        .btn-gold { background: linear-gradient(135deg, #222, #000); color: white; box-shadow: 0 0 15px var(--accent-gold); border: 1px solid rgba(255, 215, 0, 0.3); }
+        .btn:active { box-shadow: var(--shadow-inset); transform: scale(0.98); }
+        .btn-primary { background: var(--accent); color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .btn-primary:active { transform: translateY(2px) scale(0.98); }
+        
+        .btn-gold { 
+            background: linear-gradient(135deg, #1f1f1f, #000000); color: var(--gold-solid); 
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2); border: 1px solid rgba(212, 175, 55, 0.3); 
+        }
+        .btn-gold i { margin-right: 8px; }
 
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); padding-left: 5px; }
-        .input-field { width: 100%; padding: 15px; border: none; background: transparent; font-size: 1rem; color: var(--text-main); outline: none; }
-        textarea.input-field { resize: vertical; min-height: 80px; }
+        .input-group { margin-bottom: 16px; position: relative; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); padding-left: 8px; font-weight: 500;}
+        .input-field { width: 100%; padding: 16px; border: none; background: transparent; font-size: 1rem; color: var(--text-main); outline: none; transition: var(--transition); }
+        .input-field:focus { color: var(--accent); }
+        .input-field::placeholder { color: #aaa; transition: color 0.3s ease; }
+        .input-field:focus::placeholder { color: transparent; }
+        textarea.input-field { resize: vertical; min-height: 90px; line-height: 1.5; }
 
-        .card { padding: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 5px; }
-        .stat-grid, .library-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stat-box, .preset-card { padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; }
-        .preset-card i { font-size: 2rem; margin-bottom: 10px; color: var(--text-muted); }
+        .card { padding: 24px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
+        
+        .library-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+        .preset-card { padding: 24px 15px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition); }
+        .preset-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .preset-card i { font-size: 2.2rem; margin-bottom: 12px; color: var(--text-muted); transition: var(--transition); }
+        .preset-card:hover i { color: var(--accent); transform: scale(1.1); }
 
-        /* Navigation */
+        /* Toast Notifications */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px;}
+        .toast {
+            background: rgba(25, 25, 25, 0.9); backdrop-filter: blur(10px); color: white;
+            padding: 15px 20px; border-radius: 100px; font-size: 0.9rem; font-weight: 400;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px;
+            animation: toastEnter 0.5s cubic-bezier(0.2, 1, 0.3, 1) forwards, toastExit 0.5s ease 3s forwards;
+        }
+        @keyframes toastEnter { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastExit { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+
+        /* Floating Nav */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px;
-            height: 70px; background: var(--bg-color); display: flex; justify-content: space-around; align-items: center;
-            border-top-left-radius: 25px; border-top-right-radius: 25px; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px;
+            height: 70px; background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            display: flex; justify-content: space-around; align-items: center;
+            border-radius: 35px; z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid rgba(255,255,255,0.8);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.75rem; gap: 4px; transition: var(--transition); }
-        .nav-item.active { color: var(--accent); font-weight: 500; }
-        .nav-item.active i { filter: drop-shadow(0 0 8px var(--accent-gold)); transform: translateY(-3px); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #999; font-size: 0.7rem; gap: 4px; transition: var(--transition); cursor: pointer; }
+        .nav-item i { font-size: 1.3rem; margin-bottom: 2px; }
+        .nav-item.active { color: var(--accent); font-weight: 600; }
+        .nav-item.active i { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transform: translateY(-4px); }
 
-        /* Builder Specifcs */
-        .builder-section { border-left: 2px solid transparent; transition: var(--transition); }
-        .builder-section h3 { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; }
-        .array-item { position: relative; padding: 15px; margin-bottom: 15px; }
-        .remove-btn { position: absolute; top: 15px; right: 15px; color: #ff4d4d; background: transparent; border: none; cursor: pointer; }
-
-        /* Template Selector */
-        .template-selector { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-        .template-option { flex: 0 0 auto; padding: 10px 20px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; box-shadow: var(--shadow-out); }
-        .template-option.active { background: var(--accent); color: white; }
+        /* FAB for Preview */
+        .fab {
+            position: fixed; bottom: 100px; right: 20px; width: 55px; height: 55px;
+            background: linear-gradient(135deg, #1a1a1a, #000); color: var(--gold-solid);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; z-index: 999;
+            transition: var(--transition); border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .fab:hover { transform: scale(1.1) rotate(5deg); }
+        .fab:active { transform: scale(0.95); }
 
         /* =========================================
-           🎭 CREATOR TAB (BHAT BOYKA)
+           🚀 BUILDER & ATS ENGINE
            ========================================= */
-        #screen-creator { position: relative; overflow: hidden; background: #050505; color: white; }
-        .aura-wall { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
-        .aura-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; animation: float 10s infinite alternate ease-in-out; }
-        .orb-1 { width: 300px; height: 300px; background: rgba(255, 215, 0, 0.3); top: -100px; left: -100px; }
-        .orb-2 { width: 250px; height: 250px; background: rgba(200, 200, 200, 0.2); bottom: -50px; right: -50px; animation-delay: -5s; }
-        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.2); } }
-        .creator-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
-        .creator-avatar { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #222, #000); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; margin-bottom: 20px; }
-        .creator-name { font-size: 2rem; font-weight: 600; letter-spacing: 2px; }
-        .creator-sub { font-size: 0.9rem; color: #aaa; margin-bottom: 30px; font-weight: 300; }
-        .social-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; text-decoration: none; margin-bottom:10px; width: 250px; backdrop-filter: blur(10px); }
+        .ats-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: white; border-radius: 20px; margin-bottom: 20px; box-shadow: var(--shadow-soft); border: 1px solid rgba(255,255,255,0.8);
+        }
+        .ats-score-container { position: relative; width: 60px; height: 60px; cursor: pointer; }
+        .ats-svg { transform: rotate(-90deg); width: 60px; height: 60px; }
+        .ats-circle-bg { fill: none; stroke: #eee; stroke-width: 4; }
+        .ats-circle { fill: none; stroke: var(--gold-solid); stroke-width: 4; stroke-dasharray: 175; stroke-dashoffset: 175; transition: stroke-dashoffset 1s ease-out; stroke-linecap: round; }
+        .ats-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 600; font-size: 1rem; color: var(--accent); }
+
+        .builder-section { border-left: 3px solid transparent; transition: var(--transition); position: relative; overflow: hidden; }
+        .builder-section:focus-within { border-left-color: var(--gold-solid); }
+        .builder-section h3 { display: flex; justify-content: space-between; align-items: center; font-size: 1.15rem; margin-bottom: 15px; }
+        
+        .array-item { position: relative; padding: 20px; margin-bottom: 15px; animation: slideUp 0.3s ease; }
+        .remove-btn { position: absolute; top: 15px; right: 15px; color: #ff4d4d; background: rgba(255,77,77,0.1); width: 30px; height: 30px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .remove-btn:hover { background: #ff4d4d; color: white; transform: rotate(90deg); }
+
+        .template-selector { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px; scrollbar-width: none; }
+        .template-selector::-webkit-scrollbar { display: none; }
+        .template-option { flex: 0 0 auto; padding: 12px 24px; border-radius: 30px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: var(--transition); border: 1px solid transparent; background: rgba(255,255,255,0.5); }
+        .template-option.active { background: var(--accent); color: white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); }
+
+        .glow-effect { animation: goldGlow 1s ease-out; }
+        @keyframes goldGlow { 0% { box-shadow: var(--shadow-inset); } 50% { box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.4); border-color: rgba(212, 175, 55, 0.8); } 100% { box-shadow: var(--shadow-inset); } }
+
+        #particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; }
+        .particle { position: absolute; width: 6px; height: 6px; background: var(--gold-solid); border-radius: 50%; box-shadow: 0 0 10px var(--gold-solid); animation: shoot 1s cubic-bezier(0,1,.8,1) forwards; }
+        @keyframes shoot { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; } }
 
         /* =========================================
-           🖨️ PRINT / ATS EXPORT STYLES
+           🎭 CREATOR TAB (Bulletproof CSS Fix)
+           ========================================= */
+        #screen-creator { position: relative; overflow: hidden; background: #050505; color: white; border-radius: 0; min-height: 100vh;}
+        .creator-mesh {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15), transparent 40%), radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05), transparent 40%);
+            animation: meshSpin 20s infinite linear;
+        }
+        @keyframes meshSpin { 100% { transform: rotate(360deg) scale(1.5); } }
+        
+        .creator-content { 
+            position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; 
+            justify-content: flex-start; padding-top: 8vh; padding-bottom: 120px; text-align: center; width: 100%;
+        }
+        
+        .creator-avatar { 
+            width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #222, #000); 
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3), inset 0 0 20px rgba(255,255,255,0.1); 
+            display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--gold-solid); margin-bottom: 20px; 
+            border: 2px solid rgba(212, 175, 55, 0.5); flex-shrink: 0;
+        }
+        .creator-name { font-size: 2.2rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 5px; text-transform: uppercase; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; color: transparent;}
+        .creator-sub { font-size: 0.95rem; color: #888; margin-bottom: 40px; font-weight: 300; letter-spacing: 1px;}
+        
+        /* New Robust Container for Links */
+        .social-links-container {
+            display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 300px; gap: 14px; position: relative; z-index: 10;
+        }
+
+        /* Fully isolated Block-Flex Button preventing mobile render glitches */
+        .social-btn { 
+            display: flex; flex-direction: row; align-items: center; justify-content: flex-start; 
+            padding: 16px 24px; border-radius: 16px; background-color: #121212; border: 1px solid #2a2a2a; 
+            color: #ffffff; text-decoration: none; width: 100%; box-sizing: border-box; 
+            transition: var(--transition); overflow: hidden; direction: ltr; position: relative;
+        }
+        .social-btn:hover, .social-btn:active { 
+            background-color: #1a1a1a; transform: translateY(-3px) scale(1.02); 
+            border-color: var(--gold-solid); box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
+        }
+        
+        /* Strict Icon Wrapper */
+        .social-btn .icon-wrap { 
+            display: flex; align-items: center; justify-content: center; width: 35px; height: 35px; 
+            flex-shrink: 0; margin-right: 18px; background: transparent; 
+        }
+        .social-btn .icon-wrap i { font-size: 1.5rem; color: var(--gold-solid); position: static; margin: 0; padding: 0; }
+        
+        /* Strict Text Wrapper */
+        .social-btn .text-wrap { 
+            flex-grow: 1; text-align: left; font-size: 1.05rem; font-weight: 500; 
+            white-space: nowrap; color: #ffffff; margin: 0; padding: 0;
+        }
+
+        /* =========================================
+           🖨️ ATS EXPORT STYLES (Image-Inspired Output Engine)
            ========================================= */
         #print-container { display: none; }
-        .live-preview-box { width: 100%; height: 400px; border-radius: var(--border-radius); overflow: auto; background: white; box-shadow: var(--shadow-in); padding: 10px; }
+        .live-preview-box { width: 100%; height: 500px; border-radius: var(--border-radius); overflow: auto; background: white; box-shadow: var(--shadow-inset); padding: 5px; scrollbar-width: thin; }
         
         @media print {
             body { background: white; margin: 0; padding: 0; }
-            #app, .bottom-nav { display: none !important; }
+            #app, .bottom-nav, .ambient-aura, .fab, #toast-container { display: none !important; }
             #print-container { display: block !important; width: 100%; background: white; color: black; }
+            .resume-wrapper { box-shadow: none !important; padding: 0 !important; }
         }
 
-        /* ATS-Friendly Minimal Template CSS */
-        .resume-wrapper { padding: 30px; background: white; color: #111; font-family: 'Roboto', Arial, sans-serif; line-height: 1.5; font-size: 11pt; }
-        .res-header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #000; padding-bottom: 10px; }
-        .res-header h1 { margin: 0; font-size: 18pt; font-weight: 700; color: #000; text-transform: uppercase; letter-spacing: 1px;}
-        .res-contact { font-size: 10pt; color: #333; margin-top: 5px; }
-        .res-summary { margin-bottom: 15px; font-size: 10.5pt; }
-        .res-section { margin-bottom: 15px; }
-        .res-section-title { font-size: 13pt; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-bottom: 8px; color: #000; }
-        .res-item { margin-bottom: 10px; }
-        .res-item-head { display: flex; justify-content: space-between; font-weight: bold; }
-        .res-item-sub { font-style: italic; color: #444; font-size: 10pt; margin-bottom: 4px;}
-        .res-item-desc { font-size: 10.5pt; }
-        .res-skills { font-size: 10.5pt; }
+        /* Image Inspired Pristine ATS CSS */
+        .resume-wrapper { padding: 40px; background: white; color: #111; font-family: 'Inter', sans-serif; line-height: 1.4; font-size: 9.5pt; max-width: 800px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+        .res-header { margin-bottom: 20px; }
+        .res-name { color: #003A6A; font-size: 26pt; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .res-role { color: #003A6A; font-size: 13pt; font-weight: 500; margin-bottom: 15px; }
+        .res-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9pt; color: #333; margin-bottom: 20px; }
+        .res-contact-grid b { color: #111; font-weight: 600; display: inline-block; width: 65px; }
+        .res-summary { margin-bottom: 20px; font-size: 9.5pt; text-align: justify; line-height: 1.5; color: #222; }
+        
+        .res-section { margin-bottom: 18px; }
+        .res-section-title { font-size: 14pt; font-weight: 700; color: #003A6A; border-bottom: 1px solid #e0e0e0; margin-bottom: 12px; padding-bottom: 4px; }
+        
+        .res-item { display: grid; grid-template-columns: 140px 1fr; gap: 15px; margin-bottom: 15px; align-items: start; }
+        .res-date { font-size: 9.5pt; color: #555; font-weight: 500; }
+        .res-item-title { font-weight: 700; font-size: 10.5pt; color: #111; margin-bottom: 2px; }
+        .res-item-sub { font-style: italic; color: #444; font-size: 9.5pt; margin-bottom: 6px; }
+        .res-item-desc { font-size: 9.5pt; color: #222; }
+        .res-item-desc ul { margin-top: 0; padding-left: 18px; }
+        .res-item-desc li { margin-bottom: 3px; }
+        
+        .res-skills-list { font-size: 9.5pt; color: #222; column-count: 2; column-gap: 20px; }
+        .res-skills-list div { margin-bottom: 4px; }
 
-        /* Sidebar Modern Template specific */
-        .tpl-sidebar { display: grid; grid-template-columns: 1fr 2.5fr; gap: 20px; }
-        .tpl-sidebar .res-sidebar { background: #f8f9fa; padding: 15px; border-right: 2px solid #eaeaea; }
-        .tpl-sidebar .res-header { text-align: left; border: none; padding: 0; }
+        /* Legacy Sidebar Template specific fallback */
+        .tpl-sidebar { display: grid; grid-template-columns: 1fr 2.5fr; gap: 25px; }
+        .tpl-sidebar .res-header, .tpl-sidebar .res-contact-grid, .tpl-sidebar .res-item { display: block; }
+        .tpl-sidebar .res-sidebar { background: #fdfdfd; padding-right: 15px; border-right: 1px solid #ddd; }
+        .tpl-sidebar .res-date { margin-bottom: 5px; font-size: 8.5pt;}
     </style>
 </head>
 <body>
 
+<div class="ambient-aura"></div>
+<div id="particles"></div>
+<div id="toast-container"></div>
+
 <!-- ⏳ LOADING SCREEN -->
 <div id="screen-loading">
-    <div class="loader-aura"></div>
-    <h2 style="margin-top: 25px; letter-spacing: 4px;">AuraCV</h2>
-    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Optimizing Identity Engine...</p>
+    <div class="loader-ring"></div>
+    <h2 style="margin-top: 30px; letter-spacing: 5px; font-weight: 600; font-size: 1.5rem; color: #111;">AURA<span style="color:var(--gold-solid)">CV</span></h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; letter-spacing: 1px;">OPTIMIZING IDENTITY...</p>
 </div>
 
 <div id="app" class="hidden">
     
-    <!-- 1. LOGIN SCREEN -->
+    <!-- 1. LOGIN -->
     <div id="screen-login" class="screen">
-        <div style="height: 15vh;"></div>
-        <div class="card neumorphic text-center">
-            <h1 style="font-size: 2.5rem; letter-spacing: 2px;">AuraCV</h1>
-            <p style="margin-bottom: 30px;">Forge your identity into opportunity.</p>
-            <div class="input-group neumorphic-inset"><input type="text" id="login-name" class="input-field" placeholder="Enter your name"></div>
-            <button class="btn btn-primary" onclick="app.login()">Enter Workspace</button>
-            <button class="btn" onclick="app.loginGuest()">Continue as Guest</button>
+        <div style="height: 12vh;"></div>
+        <div class="card neumorphic text-center" style="padding: 40px 20px;">
+            <div style="font-size: 3rem; color: var(--accent); margin-bottom: 10px;"><i class="fas fa-fingerprint"></i></div>
+            <h1 style="font-size: 2.2rem; letter-spacing: 1px;">AuraCV</h1>
+            <p style="margin-bottom: 35px; font-size: 1.1rem;">Forge your identity into opportunity.</p>
+            <div class="input-group neumorphic-inset" style="border-radius: 20px;">
+                <input type="text" id="login-name" class="input-field" placeholder="Enter your first name" style="text-align: center; font-size: 1.2rem; padding: 20px;">
+            </div>
+            <button class="btn btn-primary" style="padding: 20px; font-size: 1.1rem; border-radius: 20px;" onclick="app.login()">Enter Workspace</button>
+            <button class="btn" style="background: transparent; box-shadow: none;" onclick="app.loginGuest()">Continue as Guest</button>
         </div>
     </div>
 
-    <!-- 2. HOME DASHBOARD -->
+    <!-- 2. HOME -->
     <div id="screen-home" class="screen hidden">
-        <h1 id="welcome-msg">Welcome back.</h1>
-        <p>Let’s build a powerful ATS-optimized resume today.</p>
+        <h1 id="welcome-msg" style="font-size: 2.4rem;">Good evening,</h1>
+        <p style="font-size: 1.1rem;">Let’s build an unparalleled professional profile.</p>
 
-        <div class="card neumorphic" style="margin-top: 20px;">
-            <h3>Quick Actions</h3>
-            <div style="margin-top: 15px;">
-                <button class="btn btn-primary" onclick="app.navigate('builder'); app.createNewDraft();"><i class="fas fa-plus"></i> Create Blank Resume</button>
-                <button class="btn" onclick="app.navigate('library')"><i class="fas fa-book"></i> Use Professional Preset</button>
-            </div>
+        <div class="card neumorphic" style="margin-top: 30px; padding: 30px 20px;">
+            <h3 style="margin-bottom: 20px; font-size: 1.2rem;">Quick Actions</h3>
+            <button class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 10px;" onclick="app.navigate('builder'); app.createNewDraft();"><i class="fas fa-plus"></i> Blank Document</button>
+            <button class="btn" style="display: flex; align-items: center; justify-content: center; gap: 10px;" onclick="app.navigate('library')"><i class="fas fa-magic"></i> AI Presets</button>
         </div>
 
-        <div class="stat-grid">
-            <div class="stat-box neumorphic">
-                <h2 id="stat-total" style="font-size: 2rem;">0</h2>
-                <p>Resumes</p>
+        <div class="library-grid">
+            <div class="preset-card neumorphic">
+                <h2 id="stat-total" style="font-size: 2.5rem; margin-bottom: 5px;">0</h2>
+                <p style="font-size: 0.85rem; font-weight: 500;">Saved Resumes</p>
             </div>
-            <div class="stat-box neumorphic">
-                <h2 style="font-size: 1.2rem; margin-top:10px;"><i class="fas fa-clock"></i></h2>
-                <p id="stat-last" style="font-size: 0.8rem;">Never</p>
+            <div class="preset-card neumorphic">
+                <i class="fas fa-history" style="font-size: 1.5rem; margin-bottom: 15px;"></i>
+                <p id="stat-last" style="font-size: 0.85rem; font-weight: 500;">Never</p>
+                <p style="font-size: 0.7rem; margin-top: 5px;">Last Edited</p>
             </div>
         </div>
     </div>
 
-    <!-- 3. LIBRARY (PRESETS) -->
+    <!-- 3. LIBRARY -->
     <div id="screen-library" class="screen hidden">
-        <h1>Library</h1>
-        <p>Select a professional preset structure.</p>
-        <div class="library-grid">
+        <h1 style="font-size: 2.2rem;">Library</h1>
+        <p>Architectural blueprints for success.</p>
+        <div class="library-grid" style="margin-top: 25px; margin-bottom: 40px;">
             <div class="preset-card neumorphic" onclick="app.usePreset('corporate')">
-                <i class="fas fa-briefcase"></i><h3>Corporate</h3>
-                <p style="font-size: 0.75rem;">Experience & Metrics</p>
+                <i class="fas fa-chart-line"></i><h3>Executive</h3>
+                <p style="font-size: 0.75rem;">Leadership & Metrics</p>
             </div>
             <div class="preset-card neumorphic" onclick="app.usePreset('tech')">
-                <i class="fas fa-code"></i><h3>Tech / IT</h3>
-                <p style="font-size: 0.75rem;">Skills & Projects</p>
+                <i class="fas fa-microchip"></i><h3>Engineering</h3>
+                <p style="font-size: 0.75rem;">Skills & Architecture</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('healthcare')">
+                <i class="fas fa-heartbeat"></i><h3>Healthcare</h3>
+                <p style="font-size: 0.75rem;">Clinical & Patient Care</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('sales')">
+                <i class="fas fa-bullseye"></i><h3>Sales</h3>
+                <p style="font-size: 0.75rem;">Targets & CRM</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('pm')">
+                <i class="fas fa-tasks"></i><h3>Project Mgr</h3>
+                <p style="font-size: 0.75rem;">Agile & Leadership</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('data')">
+                <i class="fas fa-database"></i><h3>Data Science</h3>
+                <p style="font-size: 0.75rem;">Analytics & ML</p>
             </div>
             <div class="preset-card neumorphic" onclick="app.usePreset('student')">
-                <i class="fas fa-graduation-cap"></i><h3>Student</h3>
-                <p style="font-size: 0.75rem;">Education & Activities</p>
+                <i class="fas fa-user-graduate"></i><h3>Academic</h3>
+                <p style="font-size: 0.75rem;">Foundation & Potential</p>
             </div>
             <div class="preset-card neumorphic" onclick="app.usePreset('creative')">
-                <i class="fas fa-paint-brush"></i><h3>Creative</h3>
+                <i class="fas fa-pen-nib"></i><h3>Creative</h3>
                 <p style="font-size: 0.75rem;">Portfolio Focus</p>
             </div>
         </div>
     </div>
 
-    <!-- 4. RESUME BUILDER -->
+    <!-- 4. BUILDER -->
     <div id="screen-builder" class="screen hidden">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h1>Builder Engine</h1>
-            <button class="btn btn-gold" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.85rem;" onclick="app.enhanceText()"><i class="fas fa-magic"></i> Smart Enhance</button>
+        <!-- ATS AI Header -->
+        <div class="ats-header">
+            <div>
+                <h1 style="font-size: 1.5rem; margin:0;">Engine</h1>
+                <p style="font-size: 0.8rem; color:var(--gold-solid); font-weight:500;">ATS Optimization Active</p>
+            </div>
+            <div class="ats-score-container" onclick="app.toast('Score based on keywords, metrics, and completeness.', 'info')">
+                <svg class="ats-svg">
+                    <circle class="ats-circle-bg" cx="30" cy="30" r="26"></circle>
+                    <circle class="ats-circle" id="ats-ring" cx="30" cy="30" r="26"></circle>
+                </svg>
+                <div class="ats-text" id="ats-number">0</div>
+            </div>
         </div>
-        <p style="font-size:0.8rem; margin-bottom:15px;"><i class="fas fa-info-circle"></i> Use action verbs and quantifiable metrics.</p>
 
-        <!-- Template Selector -->
+        <button class="btn btn-gold" style="border-radius: 25px; padding: 12px; margin-bottom: 25px;" onclick="app.triggerMagic()"><i class="fas fa-sparkles"></i> Auto-Enhance Language</button>
+
         <div class="template-selector" id="template-selector">
-            <div class="template-option active" onclick="app.setTemplate('minimal')">ATS Clean (1-Col)</div>
-            <div class="template-option" onclick="app.setTemplate('sidebar')">Modern (2-Col)</div>
+            <div class="template-option active" onclick="app.setTemplate('minimal')">Classic Image (Inspired)</div>
+            <div class="template-option" onclick="app.setTemplate('sidebar')">Modern Tech (2-Col)</div>
         </div>
 
-        <div>
-            <!-- Personal Info (Mandatory) -->
+        <div id="builder-forms">
+            <!-- Contact -->
             <div class="card neumorphic builder-section active">
-                <h3>Contact Info <span style="font-size:0.7rem; font-weight:300; color:#ff4d4d;">*Essential</span></h3>
-                <div class="input-group neumorphic-inset mt-10"><input type="text" id="b-name" class="input-field" placeholder="Full Name" oninput="app.updateDraft()"></div>
+                <h3>Contact Details <span style="font-size:0.7rem; color:#ff4d4d; font-weight:normal;">Required</span></h3>
+                <div class="input-group neumorphic-inset mt-10"><input type="text" id="b-name" class="input-field" placeholder="Full Legal Name" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="text" id="b-role" class="input-field" placeholder="Target Role (e.g. Web Developer)" oninput="app.updateDraft()"></div>
                 <div class="input-group neumorphic-inset"><input type="email" id="b-email" class="input-field" placeholder="Professional Email" oninput="app.updateDraft()"></div>
-                <div class="input-group neumorphic-inset"><input type="tel" id="b-phone" class="input-field" placeholder="Phone Number" oninput="app.updateDraft()"></div>
-                <div class="input-group neumorphic-inset"><input type="text" id="b-location" class="input-field" placeholder="City, State" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="tel" id="b-phone" class="input-field" placeholder="Phone (e.g. 269-747-2183)" oninput="app.updateDraft()"></div>
                 <div class="input-group neumorphic-inset"><input type="url" id="b-linkedin" class="input-field" placeholder="LinkedIn URL" oninput="app.updateDraft()"></div>
-                <div class="input-group neumorphic-inset"><textarea id="b-summary" class="input-field" placeholder="Summary: 2-4 sentences highlighting expertise and key achievements." oninput="app.updateDraft()"></textarea></div>
+                <div class="input-group neumorphic-inset"><input type="text" id="b-location" class="input-field" placeholder="City, State / Remote" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><textarea id="b-summary" class="input-field" placeholder="Executive Summary: 3 high-impact sentences detailing expertise and value proposition." oninput="app.updateDraft()"></textarea></div>
             </div>
 
             <!-- Experience -->
             <div class="card neumorphic builder-section">
-                <h3>Experience <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('experience')"></i></h3>
-                <p style="font-size:0.7rem; margin-bottom:10px;">Reverse-chronological. Focus on accomplishments, use % and $ metrics.</p>
+                <h3>Experience <div class="btn btn-primary" style="display:inline-flex; width:35px; height:35px; padding:0; border-radius:50%; align-items:center; justify-content:center; margin:0;" onclick="app.addArrayItem('experience')"><i class="fas fa-plus"></i></div></h3>
+                <p style="font-size:0.75rem; margin-bottom:15px;">Focus on metrics (%, $, numbers) and action verbs.</p>
                 <div id="b-experience-container"></div>
             </div>
 
             <!-- Education -->
             <div class="card neumorphic builder-section">
-                <h3>Education <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('education')"></i></h3>
+                <h3>Education <div class="btn btn-primary" style="display:inline-flex; width:35px; height:35px; padding:0; border-radius:50%; align-items:center; justify-content:center; margin:0;" onclick="app.addArrayItem('education')"><i class="fas fa-plus"></i></div></h3>
                 <div id="b-education-container"></div>
             </div>
 
             <!-- Skills -->
             <div class="card neumorphic builder-section">
                 <h3>Core Competencies</h3>
-                <p style="font-size:0.7rem; margin-bottom:10px;">Mix hard skills (Software/Tools) & soft skills (Leadership).</p>
-                <div class="input-group neumorphic-inset"><textarea id="b-skills" class="input-field" placeholder="E.g., Python, Agile Methodology, Strategic Planning, Data Analysis..." oninput="app.updateDraft()"></textarea></div>
+                <div class="input-group neumorphic-inset"><textarea id="b-skills" class="input-field" placeholder="Comma-separated skills (e.g. Python, Agile, HTML/CSS, Git)" oninput="app.updateDraft()"></textarea></div>
             </div>
 
-            <!-- Projects (Optional) -->
+            <!-- Projects -->
             <div class="card neumorphic builder-section">
-                <h3>Projects (Optional) <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('projects')"></i></h3>
+                <h3>Projects <div class="btn btn-primary" style="display:inline-flex; width:35px; height:35px; padding:0; border-radius:50%; align-items:center; justify-content:center; margin:0;" onclick="app.addArrayItem('projects')"><i class="fas fa-plus"></i></div></h3>
                 <div id="b-projects-container"></div>
             </div>
-
-            <!-- Certifications (Optional) -->
+            
+            <!-- Certs/Volunteering -->
             <div class="card neumorphic builder-section">
-                <h3>Certifications <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('certifications')"></i></h3>
+                <h3>Volunteering & Certs <div class="btn btn-primary" style="display:inline-flex; width:35px; height:35px; padding:0; border-radius:50%; align-items:center; justify-content:center; margin:0;" onclick="app.addArrayItem('certifications')"><i class="fas fa-plus"></i></div></h3>
                 <div id="b-certifications-container"></div>
             </div>
-            
-            <!-- Awards (Optional) -->
-            <div class="card neumorphic builder-section">
-                <h3>Awards & Volunteer <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('awards')"></i></h3>
-                <div id="b-awards-container"></div>
-            </div>
         </div>
+        <div style="height: 60px;"></div>
 
-        <button class="btn btn-primary" onclick="app.previewResume()">Live Preview</button>
-        <button class="btn" onclick="app.saveResume()">Save to History</button>
-        <button class="btn btn-gold" onclick="app.exportPDF()"><i class="fas fa-file-pdf"></i> Save as PDF (ATS Ready)</button>
-
-        <div id="preview-area" class="hidden" style="margin-top: 20px;">
-            <h3 style="margin-bottom: 10px;">Document Preview</h3>
+        <!-- Preview Modal -->
+        <div id="preview-area" class="hidden" style="margin-top: 20px; animation: fadeIn 0.5s;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0;">Live Document</h3>
+                <button class="btn btn-gold" style="width:auto; padding:8px 15px; margin:0; font-size:0.85rem; border-radius:20px;" onclick="app.exportPDF()"><i class="fas fa-download"></i> Save PDF</button>
+            </div>
             <div class="live-preview-box" id="live-preview-content"></div>
         </div>
     </div>
 
     <!-- 5. HISTORY -->
     <div id="screen-history" class="screen hidden">
-        <h1>History</h1>
-        <p>Your saved ATS documents.</p>
-        <div id="history-list" style="margin-top: 20px;"></div>
+        <h1 style="font-size: 2.2rem;">Archives</h1>
+        <p>Your saved identities.</p>
+        <div id="history-list" style="margin-top: 25px; display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
 
-    <!-- 6. PROFILE -->
+    <!-- 6. PROFILE/SETTINGS -->
     <div id="screen-profile" class="screen hidden">
-        <h1>Settings</h1>
-        <div class="card neumorphic" style="margin-top: 20px;">
+        <h1 style="font-size: 2.2rem;">Settings</h1>
+        <div class="card neumorphic" style="margin-top: 25px;">
             <div class="input-group neumorphic-inset">
-                <label>Default Name</label>
+                <label>User Identity</label>
                 <input type="text" id="p-name" class="input-field" oninput="app.updateProfile()">
             </div>
         </div>
-        <div style="margin-top: 30px;">
-            <button class="btn" onclick="app.exportData()"><i class="fas fa-download"></i> Export App Data</button>
-            <button class="btn" style="color: #ff4d4d;" onclick="app.clearData()"><i class="fas fa-trash"></i> Reset Engine</button>
-            <button class="btn" onclick="app.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <div class="card neumorphic" style="gap:15px;">
+            <button class="btn" onclick="app.saveResume()"><i class="fas fa-save"></i> Force Save Current Draft</button>
+            <button class="btn" onclick="app.exportData()"><i class="fas fa-database"></i> Backup JSON Data</button>
+            <button class="btn" style="color: #ff4d4d; background: rgba(255,77,77,0.05);" onclick="app.clearData()"><i class="fas fa-fire"></i> Erase All Data</button>
         </div>
+        <button class="btn" style="margin-top:20px; border: 1px solid #ddd;" onclick="app.logout()"><i class="fas fa-sign-out-alt"></i> Disconnect</button>
     </div>
 
-    <!-- 7. CREATOR TAB -->
+    <!-- 7. CREATOR TAB (Fixes Applied Here) -->
     <div id="screen-creator" class="screen hidden">
-        <div class="aura-wall"><div class="aura-orb orb-1"></div><div class="aura-orb orb-2"></div></div>
+        <div class="creator-mesh"></div>
         <div class="creator-content">
             <div class="creator-avatar"><i class="fas fa-bolt"></i></div>
             <h1 class="creator-name">BHAT BOYKA</h1>
-            <p class="creator-sub">"Forging identity into opportunity."</p>
-            <a href="https://youtube.com/@aathir_hussain_bhat.?si=28tBVXAnqc0qJfAQ" target="_blank" class="social-btn"><i class="fab fa-youtube"></i> YouTube</a>
-            <a href="https://share.google/05cqDTY08eQEp74MH" target="_blank" class="social-btn"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://share.google/jWLCjCdUvzcd360cx" target="_blank" class="social-btn"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="https://github.com/Aathir-Hussain-Bhat" target="_blank" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://x.com/bhatboyka" target="_blank" class="social-btn"><i class="fab fa-twitter"></i> X (Twitter)</a>
+            <p class="creator-sub">"Architecting digital legacy."</p>
+            
+            <div class="social-links-container">
+                <a href="https://youtube.com/@aathir_hussain_bhat.?si=28tBVXAnqc0qJfAQ" target="_blank" class="social-btn">
+                    <div class="icon-wrap"><i class="fab fa-youtube"></i></div>
+                    <div class="text-wrap">YouTube</div>
+                </a>
+                <a href="https://share.google/05cqDTY08eQEp74MH" target="_blank" class="social-btn">
+                    <div class="icon-wrap"><i class="fab fa-instagram"></i></div>
+                    <div class="text-wrap">Instagram</div>
+                </a>
+                <a href="https://share.google/jWLCjCdUvzcd360cx" target="_blank" class="social-btn">
+                    <div class="icon-wrap"><i class="fab fa-facebook"></i></div>
+                    <div class="text-wrap">Facebook</div>
+                </a>
+                <a href="https://github.com/Aathir-Hussain-Bhat" target="_blank" class="social-btn">
+                    <div class="icon-wrap"><i class="fab fa-github"></i></div>
+                    <div class="text-wrap">GitHub</div>
+                </a>
+                <a href="https://x.com/bhatboyka" target="_blank" class="social-btn">
+                    <div class="icon-wrap"><i class="fab fa-twitter"></i></div>
+                    <div class="text-wrap">X (Twitter)</div>
+                </a>
+            </div>
         </div>
     </div>
 
+    <!-- FAB -->
+    <div class="fab hidden" id="fab" onclick="app.togglePreview()"><i class="fas fa-eye"></i></div>
+
     <!-- BOTTOM NAV -->
     <div class="bottom-nav hidden" id="bottom-nav">
-        <div class="nav-item active" onclick="app.navigate('home')" data-target="home"><i class="fas fa-home"></i><span>Home</span></div>
-        <div class="nav-item" onclick="app.navigate('library')" data-target="library"><i class="fas fa-book"></i><span>Library</span></div>
-        <div class="nav-item" onclick="app.navigate('builder')" data-target="builder"><i class="fas fa-pen-nib"></i><span>Create</span></div>
-        <div class="nav-item" onclick="app.navigate('history')" data-target="history"><i class="fas fa-history"></i><span>History</span></div>
-        <div class="nav-item" onclick="app.navigate('profile')" data-target="profile"><i class="fas fa-cog"></i><span>Settings</span></div>
+        <div class="nav-item active" onclick="app.navigate('home')" data-target="home"><i class="fas fa-compass"></i><span>Home</span></div>
+        <div class="nav-item" onclick="app.navigate('library')" data-target="library"><i class="fas fa-layer-group"></i><span>Presets</span></div>
+        <div class="nav-item" onclick="app.navigate('builder')" data-target="builder"><i class="fas fa-pen-nib"></i><span>Engine</span></div>
+        <div class="nav-item" onclick="app.navigate('history')" data-target="history"><i class="fas fa-archive"></i><span>Vault</span></div>
+        <div class="nav-item" onclick="app.navigate('profile')" data-target="profile"><i class="fas fa-sliders-h"></i><span>Config</span></div>
         <div class="nav-item" onclick="app.navigate('creator')" data-target="creator"><i class="fas fa-star"></i><span>Creator</span></div>
     </div>
 
@@ -363,25 +539,17 @@
 
 <script>
     const app = {
-        state: { user: null, resumes:[], currentDraft: null },
+        state: { user: null, resumes:[], currentDraft: null, previewOpen: false },
+        currentScreen: '',
+        ignoreSwipe: false,
+        tabsOrder:['home', 'library', 'builder', 'history', 'profile', 'creator'],
         
-        // Smart Enhancer Dictionary (Harvard/Indeed Action Verbs)
         dictionary: {
-            "\\bmade\\b": "developed",
-            "\\bhelped\\b": "assisted in",
-            "\\bworked on\\b": "contributed to",
-            "\\bbuilt\\b": "engineered",
-            "\\bgot\\b": "achieved",
-            "\\bdid\\b": "executed",
-            "\\bgood\\b": "proficient in",
-            "\\bused\\b": "utilized",
-            "\\bfixed\\b": "resolved",
-            "\\bmanaged\\b": "orchestrated",
-            "\\bchanged\\b": "optimized",
-            "\\bstarted\\b": "initiated",
-            "\\btalked to\\b": "negotiated with",
-            "\\bwas responsible for\\b": "spearheaded",
-            "\\bled\\b": "directed"
+            "\\bmade\\b": "engineered", "\\bhelped\\b": "facilitated", "\\bworked on\\b": "spearheaded",
+            "\\bbuilt\\b": "architected", "\\bgot\\b": "secured", "\\bdid\\b": "executed",
+            "\\bgood\\b": "proficient", "\\bused\\b": "leveraged", "\\bfixed\\b": "resolved",
+            "\\bmanaged\\b": "orchestrated", "\\bchanged\\b": "optimized", "\\bstarted\\b": "initiated",
+            "\\bled\\b": "directed", "\\btried\\b": "strategized"
         },
 
         init() {
@@ -395,44 +563,116 @@
                     if (this.state.user) this.navigate('home');
                     else this.navigate('login');
                 }, 500);
-            }, 1800);
+            }, 2000);
+            
+            this.updateDraft = this.debounce(this.processDraftUpdate.bind(this), 500);
+            this.initSwipe();
+        },
+
+        haptic(time = 40) { if(navigator.vibrate) navigator.vibrate(time); },
+
+        toast(msg, icon = 'check-circle') {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = 'toast';
+            el.innerHTML = `<i class="fas fa-${icon}" style="color:var(--gold-solid); font-size:1.2rem;"></i> <span>${msg}</span>`;
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 3500);
+        },
+
+        debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        },
+
+        /* Swiping Logic */
+        initSwipe() {
+            let startX = 0, startY = 0, endX = 0, endY = 0;
+            const threshold = 60; 
+            const appContainer = document.getElementById('app');
+            
+            appContainer.addEventListener('touchstart', e => {
+                if (e.target.closest('.template-selector') || e.target.closest('.live-preview-box')) {
+                    this.ignoreSwipe = true; return;
+                }
+                this.ignoreSwipe = false;
+                startX = e.changedTouches[0].screenX;
+                startY = e.changedTouches[0].screenY;
+            }, {passive: true});
+
+            appContainer.addEventListener('touchend', e => {
+                if(this.ignoreSwipe) return;
+                endX = e.changedTouches[0].screenX;
+                endY = e.changedTouches[0].screenY;
+                
+                if (Math.abs(endY - startY) > Math.abs(endX - startX)) return; 
+                if (!this.state.user || this.currentScreen === 'login') return;
+
+                let currentIndex = this.tabsOrder.indexOf(this.currentScreen);
+                if (currentIndex === -1) return;
+
+                if (endX < startX - threshold && currentIndex < this.tabsOrder.length - 1) {
+                    this.navigate(this.tabsOrder[currentIndex + 1]);
+                } else if (endX > startX + threshold && currentIndex > 0) {
+                    this.navigate(this.tabsOrder[currentIndex - 1]);
+                }
+            }, {passive: true});
         },
 
         loadData() {
-            const data = localStorage.getItem('auraCV_data_v2');
+            const data = localStorage.getItem('auraCV_unparalleled');
             if (data) {
                 const parsed = JSON.parse(data);
                 this.state.user = parsed.user;
                 this.state.resumes = parsed.resumes ||[];
             }
         },
-
-        saveData() {
-            localStorage.setItem('auraCV_data_v2', JSON.stringify({ user: this.state.user, resumes: this.state.resumes }));
-        },
+        saveData() { localStorage.setItem('auraCV_unparalleled', JSON.stringify({ user: this.state.user, resumes: this.state.resumes })); },
 
         login() {
             const name = document.getElementById('login-name').value.trim();
-            if (name) { this.state.user = name; this.saveData(); this.navigate('home'); }
-            else alert("Please enter a name.");
+            if (name) { this.state.user = name; this.saveData(); this.haptic(50); this.navigate('home'); this.toast(`Welcome to AuraCV, ${name}`); }
+            else this.toast("Identity verification required.", "exclamation-triangle");
         },
-
-        loginGuest() { this.state.user = "Guest"; this.saveData(); this.navigate('home'); },
-        logout() { this.state.user = null; this.saveData(); this.navigate('login'); },
+        loginGuest() { this.state.user = "Guest"; this.saveData(); this.haptic(30); this.navigate('home'); },
+        logout() { this.state.user = null; this.saveData(); this.haptic(50); this.navigate('login'); },
 
         navigate(screenId) {
-            document.querySelectorAll('.screen:not(#screen-loading)').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
+            this.haptic(20);
+            
+            let oldIndex = this.tabsOrder.indexOf(this.currentScreen);
+            let newIndex = this.tabsOrder.indexOf(screenId);
+            let animClass = 'fade-in';
+            if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+                animClass = newIndex > oldIndex ? 'slide-in-right' : 'slide-in-left';
+            }
+
+            this.currentScreen = screenId;
+
+            document.querySelectorAll('.screen:not(#screen-loading)').forEach(el => { 
+                el.classList.add('hidden'); 
+                el.classList.remove('fade-in', 'slide-in-right', 'slide-in-left'); 
+            });
+
             const target = document.getElementById(`screen-${screenId}`);
             target.classList.remove('hidden');
-            target.classList.add('fade-in');
+            target.classList.add(animClass);
+            window.scrollTo(0,0);
 
             const nav = document.getElementById('bottom-nav');
-            if (screenId === 'login') nav.classList.add('hidden');
+            const fab = document.getElementById('fab');
+            if (screenId === 'login') { nav.classList.add('hidden'); fab.classList.add('hidden'); }
             else {
                 nav.classList.remove('hidden');
                 document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
                 const activeNav = document.querySelector(`.nav-item[data-target="${screenId}"]`);
                 if(activeNav) activeNav.classList.add('active');
+                
+                if(screenId === 'builder') fab.classList.remove('hidden');
+                else fab.classList.add('hidden');
             }
 
             if (screenId === 'home') this.renderHome();
@@ -441,92 +681,136 @@
         },
 
         renderHome() {
-            document.getElementById('welcome-msg').innerText = `Welcome back, ${this.state.user}.`;
+            const hour = new Date().getHours();
+            let greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+            document.getElementById('welcome-msg').innerText = `${greeting}, ${this.state.user.split(' ')[0]}.`;
             document.getElementById('stat-total').innerText = this.state.resumes.length;
             document.getElementById('stat-last').innerText = this.state.resumes.length > 0 ? this.state.resumes[0].date : 'Never';
         },
 
         updateProfile() { this.state.user = document.getElementById('p-name').value; this.saveData(); },
 
-        createNewDraft() {
+        createNewDraft(silent = false) {
             this.state.currentDraft = {
-                id: Date.now().toString(),
-                date: new Date().toLocaleDateString(),
-                template: 'minimal',
-                personal: { name: this.state.user, email: '', phone: '', location: '', linkedin: '', summary: '' },
-                experience: [], education: [], skills: '', projects: [], certifications:[], awards:[]
+                id: Date.now().toString(), date: new Date().toLocaleDateString(), template: 'minimal',
+                personal: { name: this.state.user, role: '', email: '', phone: '', location: '', linkedin: '', summary: '' },
+                experience: [], education:[], skills: '', projects:[], certifications:[]
             };
             this.populateBuilder();
+            if(!silent) this.toast("New blank document initialized.", "file-alt");
         },
 
         usePreset(type) {
-            this.createNewDraft();
+            this.createNewDraft(true); 
             const d = this.state.currentDraft;
+            
             if (type === 'corporate') {
-                d.personal.summary = "Results-driven professional with 5+ years of experience driving operational success. Proven track record of increasing revenue by 20% and leading cross-functional teams.";
-                d.experience.push({ company: "Global Corp", role: "Operations Manager", date: "2019 - Present", desc: "• Spearheaded new workflow system, reducing costs by 15%.\n• Managed a team of 12 members." });
+                d.personal.role = "Director of Operations";
+                d.personal.summary = "Results-driven executive with proven success in optimizing operations. Secured 20% cost reduction and orchestrated global teams.";
+                d.experience.push({ company: "Global Corp", role: "Director of Operations", date: "2018-08 - Present", desc: "• Orchestrated new supply chain protocol, saving $1.2M annually.\n• Directed team of 45 across 3 continents." });
             } else if (type === 'tech') {
-                d.personal.summary = "Innovative Software Engineer specializing in scalable web applications. Proficient in modern JS frameworks and cloud architecture.";
-                d.skills = "JavaScript (React, Node.js), Python, AWS, Agile Development, Problem Solving";
-                d.projects.push({ name: "E-Commerce API", url: "github.com/example", desc: "Engineered a RESTful API serving 10k+ daily requests." });
+                d.personal.role = "Web Developer";
+                d.personal.summary = "Dedicated and hard-working self-learner with a background in Computer Science. Created a 98% bug-free product during mockup translation into JavaScript code.";
+                d.skills = "SDLC, Web application development, Agile frameworks, SQL database, Communication";
+                d.experience.push({ company: "Star Technologies, Austin, TX", role: "Web Developer", date: "2018-08 - 2021-09", desc: "• Developed mockups and wireframes for 5 landing pages.\n• Built documentation for the newcomers to teach standards and best practices in JavaScript." });
+            } else if (type === 'healthcare') {
+                d.personal.role = "Registered Nurse";
+                d.personal.summary = "Dedicated and compassionate nursing professional with 5+ years of experience delivering high-quality patient care in fast-paced clinical settings.";
+                d.skills = "Patient Care, EMR/EHR, Triage, ACLS/BLS, Empathy";
+                d.experience.push({ company: "City General Hospital", role: "ER Nurse", date: "2019-01 - Present", desc: "• Administered critical care to 30+ patients daily.\n• Improved patient discharge efficiency by 15%." });
+            } else if (type === 'sales') {
+                d.personal.role = "Senior Sales Executive";
+                d.personal.summary = "Dynamic Sales Executive with a proven track record of exceeding quotas by 120%. Skilled in B2B negotiations and CRM management.";
+                d.skills = "B2B Sales, CRM (Salesforce), Lead Generation, Negotiation, Public Speaking";
+                d.experience.push({ company: "TechSolutions Inc.", role: "Account Executive", date: "2017-04 - 2022-01", desc: "• Closed $2.5M in enterprise software deals in 2021.\n• Mentored 5 junior sales reps, increasing team revenue by 30%." });
+            } else if (type === 'pm') {
+                d.personal.role = "Technical Project Manager";
+                d.personal.summary = "Certified Scrum Master and Project Manager driving cross-functional teams to deliver multi-million dollar software projects on time and under budget.";
+                d.skills = "Agile & Scrum, Risk Management, Jira/Asana, Budgeting, Stakeholder Communication";
+                d.experience.push({ company: "BuildIt Agency", role: "Project Manager", date: "2020-02 - Present", desc: "• Delivered 12 major product launches on schedule.\n• Mitigated project risks, saving an estimated $400k." });
+            } else if (type === 'data') {
+                d.personal.role = "Data Scientist";
+                d.personal.summary = "Analytical Data Scientist specializing in predictive modeling and machine learning. Transformed raw data into actionable insights increasing revenue by 15%.";
+                d.skills = "Python, R, SQL, Machine Learning, Tableau, Statistical Analysis";
+                d.experience.push({ company: "DataFlow Analytics", role: "Data Analyst", date: "2021-06 - Present", desc: "• Engineered predictive models with 92% accuracy.\n• Automated reporting workflows, saving 15 hours weekly." });
             } else if (type === 'student') {
-                d.personal.summary = "Highly motivated honors student seeking an entry-level position to leverage strong analytical skills and academic foundation.";
-                d.education.push({ school: "State University", degree: "B.S. Business Admin (GPA: 3.8)", date: "May 2024" });
-                d.awards.push({ title: "Dean's List", issuer: "State University", desc: "Achieved top 5% of class." });
+                d.personal.role = "Student / Entry Level";
+                d.personal.summary = "Ambitious honors graduate with a strong foundation in data analysis and leadership seeking to leverage academic excellence into corporate impact.";
+                d.education.push({ school: "University of Excellence", degree: "B.S. Economics", date: "2020-09 - 2024-05" });
+            } else if (type === 'creative') {
+                d.personal.role = "Graphic Designer";
+                d.personal.summary = "Visionary graphic designer with 4 years of agency experience. Led brand identity overhauls for 10+ major clients resulting in 50% increase in brand engagement.";
+                d.skills = "Adobe Creative Suite, UI/UX, Typography, Branding, Figma";
             }
+            
             this.populateBuilder();
             this.navigate('builder');
+            this.toast(`${type.charAt(0).toUpperCase() + type.slice(1)} preset loaded.`, "magic");
         },
 
         populateBuilder() {
-            const d = this.state.currentDraft;
-            ['name','email','phone','location','linkedin','summary'].forEach(f => {
-                document.getElementById(`b-${f}`).value = d.personal[f] || '';
+            const d = this.state.currentDraft;['name','role','email','phone','location','linkedin','summary'].forEach(f => {
+                const el = document.getElementById(`b-${f}`);
+                if(el) el.value = d.personal[f] || '';
             });
             document.getElementById('b-skills').value = d.skills || '';
             this.setTemplate(d.template || 'minimal');
             this.renderArrays();
+            this.updateATS();
             document.getElementById('preview-area').classList.add('hidden');
+            this.state.previewOpen = false;
+            document.getElementById('fab').innerHTML = '<i class="fas fa-eye"></i>';
         },
 
-        updateDraft() {
+        processDraftUpdate() {
             if (!this.state.currentDraft) return;
-            const d = this.state.currentDraft;['name','email','phone','location','linkedin','summary'].forEach(f => {
-                d.personal[f] = document.getElementById(`b-${f}`).value;
+            const d = this.state.currentDraft;['name','role','email','phone','location','linkedin','summary'].forEach(f => {
+                const el = document.getElementById(`b-${f}`);
+                if(el) d.personal[f] = el.value;
             });
             d.skills = document.getElementById('b-skills').value;
+            this.updateATS();
+            if(this.state.previewOpen) this.refreshPreview();
         },
 
         setTemplate(tpl) {
+            this.haptic(20);
             this.state.currentDraft.template = tpl;
             document.querySelectorAll('.template-option').forEach(el => el.classList.remove('active'));
             const options = document.querySelectorAll('.template-option');
             if(tpl === 'minimal') options[0].classList.add('active');
             if(tpl === 'sidebar') options[1].classList.add('active');
+            if(this.state.previewOpen) this.refreshPreview();
         },
 
         addArrayItem(type) {
+            this.haptic(30);
             const schema = {
                 experience: { company: '', role: '', date: '', desc: '' },
                 education: { school: '', degree: '', date: '' },
                 projects: { name: '', url: '', desc: '' },
-                certifications: { name: '', issuer: '', date: '' },
-                awards: { title: '', issuer: '', desc: '' }
+                certifications: { name: '', issuer: '', date: '' }
             };
-            this.state.currentDraft[type] = this.state.currentDraft[type] || [];
-            this.state.currentDraft[type].push(schema[type]);
+            this.state.currentDraft[type] = this.state.currentDraft[type] ||[];
+            this.state.currentDraft[type].unshift(schema[type]);
             this.renderArrays();
+            this.processDraftUpdate();
         },
 
-        removeArrayItem(type, index) { this.state.currentDraft[type].splice(index, 1); this.renderArrays(); },
-        updateArrayItem(type, index, field, value) { this.state.currentDraft[type][index][field] = value; },
+        removeArrayItem(type, index) { this.haptic([30, 30]); this.state.currentDraft[type].splice(index, 1); this.renderArrays(); this.processDraftUpdate(); },
+        
+        updateArrayItem(type, index, field, value) { 
+            this.state.currentDraft[type][index][field] = value; 
+            this.updateDraft(); 
+        },
 
         renderArrays() {
             const renderInputs = (type, fields, placeholders) => {
                 const container = document.getElementById(`b-${type}-container`);
+                if(!container) return;
                 container.innerHTML = '';
                 (this.state.currentDraft[type] ||[]).forEach((item, i) => {
-                    let html = `<div class="array-item neumorphic-inset"><button class="remove-btn" onclick="app.removeArrayItem('${type}', ${i})"><i class="fas fa-times"></i></button>`;
+                    let html = `<div class="array-item neumorphic-inset"><button class="remove-btn" onclick="app.removeArrayItem('${type}', ${i})"><i class="fas fa-trash"></i></button>`;
                     fields.forEach((f, idx) => {
                         if (f === 'desc') {
                             html += `<textarea class="input-field" placeholder="${placeholders[idx]}" oninput="app.updateArrayItem('${type}', ${i}, '${f}', this.value)">${item[f]}</textarea>`;
@@ -539,19 +823,26 @@
                 });
             };
 
-            renderInputs('experience', ['company', 'role', 'date', 'desc'],['Company', 'Job Title', 'Dates (e.g. 2020 - 2023)', 'Bullet points (Start with verbs, use % metrics)']);
-            renderInputs('education', ['school', 'degree', 'date'],['Institution', 'Degree / Major', 'Graduation Year']);
-            renderInputs('projects', ['name', 'url', 'desc'],['Project Name', 'Link (GitHub/Live)', 'Description']);
-            renderInputs('certifications',['name', 'issuer', 'date'], ['Cert Name', 'Issuing Body', 'Year']);
-            renderInputs('awards',['title', 'issuer', 'desc'], ['Award/Role Title', 'Organization/Issuer', 'Description']);
+            renderInputs('experience',['company', 'role', 'date', 'desc'],['Company, City, TX', 'Job Title', 'Dates (e.g. 2018-08 - 2021-09)', 'Bullet points (Use % and $)']);
+            renderInputs('education',['school', 'degree', 'date'],['Institution, City, TX', 'Degree / Major (e.g. Computer Science, BS)', 'Graduation Year']);
+            renderInputs('projects',['name', 'url', 'desc'],['Project Name', 'Link (GitHub)', 'Description']);
+            renderInputs('certifications',['name', 'issuer', 'date'],['Title/Role (e.g. "Happiness" Community Center)', 'Location/Issuer', 'Dates']);
         },
 
-        enhanceText() {
+        triggerMagic() {
+            this.haptic([50, 50, 100]);
+            this.createParticles(event);
+            
+            document.querySelectorAll('.builder-section textarea').forEach(el => {
+                el.parentElement.classList.add('glow-effect');
+                setTimeout(() => el.parentElement.classList.remove('glow-effect'), 1000);
+            });
+
             let summary = document.getElementById('b-summary').value;
             for (let [key, val] of Object.entries(this.dictionary)) summary = summary.replace(new RegExp(key, "gi"), val);
             document.getElementById('b-summary').value = summary;
             
-            ['experience', 'projects', 'awards'].forEach(type => {
+            ['experience', 'projects'].forEach(type => {
                 if(this.state.currentDraft[type]) {
                     this.state.currentDraft[type].forEach(item => {
                         if(item.desc) {
@@ -563,26 +854,88 @@
                 }
             });
             
-            this.updateDraft(); this.renderArrays();
-            const btn = document.querySelector('.btn-gold');
-            btn.innerHTML = '<i class="fas fa-check"></i> Enhanced';
-            setTimeout(() => btn.innerHTML = '<i class="fas fa-magic"></i> Smart Enhance', 2000);
+            this.processDraftUpdate();
+            this.renderArrays();
+            this.toast("Language successfully enhanced.", "sparkles");
+        },
+
+        createParticles(e) {
+            const container = document.getElementById('particles');
+            const rect = e.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            for(let i=0; i<15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 80 + 30;
+                p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        },
+
+        updateATS() {
+            const d = this.state.currentDraft;
+            let score = 25; 
+            
+            if(d.personal.email && d.personal.phone) score += 15;
+            if(d.personal.summary && d.personal.summary.length > 20) score += 10;
+            if(d.skills && d.skills.length > 10) score += 10;
+            if(d.experience.length > 0) score += 15;
+            
+            const fullText = JSON.stringify(d).toLowerCase();
+            const metrics = (fullText.match(/\%|\$|\d+/g) ||[]).length;
+            score += Math.min(15, metrics * 3); 
+            
+            let verbCount = 0;
+            Object.values(this.dictionary).forEach(verb => {
+                if(fullText.includes(verb)) verbCount++;
+            });
+            score += Math.min(10, verbCount * 2);
+
+            score = Math.min(99, score); 
+
+            const circle = document.getElementById('ats-ring');
+            const text = document.getElementById('ats-number');
+            const offset = 175 - (175 * score) / 100;
+            circle.style.strokeDashoffset = offset;
+            
+            if(score > 80) circle.style.stroke = "#10b981"; 
+            else if(score > 50) circle.style.stroke = "#f59e0b"; 
+            else circle.style.stroke = "#ef4444"; 
+            
+            let current = parseInt(text.innerText);
+            let diff = score - current;
+            if(diff !== 0) {
+                let step = diff > 0 ? 1 : -1;
+                let timer = setInterval(() => {
+                    current += step;
+                    text.innerText = current;
+                    if(current === score) clearInterval(timer);
+                }, 20);
+            }
         },
 
         generateHTML(draft) {
             const p = draft.personal;
-            let contactArr =[];
-            if(p.email) contactArr.push(p.email);
-            if(p.phone) contactArr.push(p.phone);
-            if(p.location) contactArr.push(p.location);
-            if(p.linkedin) contactArr.push(p.linkedin);
-            
+            let contactHTML = '';
+            if (p.phone) contactHTML += `<div><b>Phone</b> ${p.phone}</div>`;
+            if (p.email) contactHTML += `<div><b>Email</b> ${p.email}</div>`;
+            if (p.linkedin) contactHTML += `<div><b>LinkedIn</b> ${p.linkedin}</div>`;
+            if (p.location) contactHTML += `<div><b>Location</b> ${p.location}</div>`;
+
             const headerStr = `
                 <div class="res-header">
-                    <h1>${p.name || 'Your Name'}</h1>
-                    <div class="res-contact">${contactArr.join(' &nbsp;|&nbsp; ')}</div>
+                    <div class="res-name">${p.name || 'Max May'}</div>
+                    ${p.role ? `<div class="res-role">${p.role}</div>` : ''}
+                    <div class="res-contact-grid">${contactHTML}</div>
                 </div>
-                ${p.summary ? `<div class="res-summary"><b>Summary:</b> ${p.summary}</div>` : ''}`;
+                ${p.summary ? `<div class="res-summary">${p.summary}</div>` : ''}`;
 
             const genSection = (title, data, renderer) => {
                 if (!data || data.length === 0) return '';
@@ -593,132 +946,167 @@
                 </div>`;
             };
 
-            const expStr = genSection('Professional Experience', draft.experience, e => `
+            const parseBullets = (text) => {
+                if(!text) return '';
+                return `<ul>${text.split('\n').filter(l=>l.trim()).map(l => `<li>${l.replace(/^[-•]\s*/,'')}</li>`).join('')}</ul>`;
+            };
+
+            const expStr = genSection('Experience', draft.experience, e => `
                 <div class="res-item">
-                    <div class="res-item-head"><span><b>${e.role}</b>, ${e.company}</span> <span>${e.date}</span></div>
-                    <div class="res-item-desc">${e.desc ? e.desc.split('\n').map(l => l.trim() ? `• ${l.replace(/^•\s*/,'')}<br>` : '').join('') : ''}</div>
+                    <div class="res-date">${e.date}</div>
+                    <div>
+                        <div class="res-item-title">${e.role}</div>
+                        <div class="res-item-sub">${e.company}</div>
+                        <div class="res-item-desc">${parseBullets(e.desc)}</div>
+                    </div>
                 </div>`);
 
             const eduStr = genSection('Education', draft.education, e => `
                 <div class="res-item">
-                    <div class="res-item-head"><span><b>${e.degree}</b></span> <span>${e.date}</span></div>
-                    <div class="res-item-sub">${e.school}</div>
+                    <div class="res-date">${e.date}</div>
+                    <div>
+                        <div class="res-item-title">${e.degree}</div>
+                        <div class="res-item-sub">${e.school}</div>
+                    </div>
                 </div>`);
 
-            const projStr = genSection('Projects', draft.projects, p => `
+            const projStr = genSection('Projects', draft.projects, prj => `
                 <div class="res-item">
-                    <div class="res-item-head"><span><b>${p.name}</b> ${p.url ? `| <a href="${p.url}" style="color:#000;">Link</a>` : ''}</span></div>
-                    <div class="res-item-desc">${p.desc}</div>
+                    <div class="res-date"></div>
+                    <div>
+                        <div class="res-item-title">${prj.name} ${prj.url ? `<span style="font-weight:normal; font-size:9pt; margin-left:10px;">${prj.url}</span>` : ''}</div>
+                        <div class="res-item-desc">${parseBullets(prj.desc)}</div>
+                    </div>
                 </div>`);
 
-            const certStr = genSection('Certifications', draft.certifications, c => `
+            const certStr = genSection('Volunteering & Certs', draft.certifications, c => `
                 <div class="res-item">
-                    <div><b>${c.name}</b> — ${c.issuer} (${c.date})</div>
+                    <div class="res-date">${c.date}</div>
+                    <div>
+                        <span class="res-item-title" style="margin-right: 10px;">${c.name}</span>
+                        <span class="res-item-sub">${c.issuer}</span>
+                    </div>
                 </div>`);
 
-            const awdStr = genSection('Awards & Volunteering', draft.awards, a => `
-                <div class="res-item">
-                    <div><b>${a.title}</b> — ${a.issuer}</div>
-                    <div class="res-item-desc">${a.desc}</div>
-                </div>`);
-
-            const skillStr = draft.skills ? `<div class="res-section"><div class="res-section-title">Core Competencies</div><div class="res-skills">${draft.skills}</div></div>` : '';
+            let skillStr = '';
+            if(draft.skills) {
+                const skillsArr = draft.skills.split(',').map(s => s.trim()).filter(s => s);
+                skillStr = `
+                <div class="res-section">
+                    <div class="res-section-title">Skills & Capabilities</div>
+                    <div class="res-item">
+                        <div class="res-date"></div>
+                        <div class="res-skills-list">
+                            ${skillsArr.map(s => `<div>${s}</div>`).join('')}
+                        </div>
+                    </div>
+                </div>`;
+            }
 
             let html = `<div class="resume-wrapper ${draft.template === 'sidebar' ? 'tpl-sidebar' : ''}">`;
-            
-            if (draft.template === 'sidebar') {
-                html += `
-                    <div class="res-sidebar">
-                        ${headerStr}
-                        ${skillStr}
-                        ${eduStr}
-                        ${certStr}
-                    </div>
-                    <div class="res-main">
-                        ${expStr}
-                        ${projStr}
-                        ${awdStr}
-                    </div>`;
-            } else {
-                html += headerStr + expStr + eduStr + projStr + certStr + awdStr + skillStr;
-            }
+            html += headerStr + expStr + eduStr + skillStr + projStr + certStr;
             html += `</div>`;
             return html;
         },
 
-        previewResume() {
-            this.updateDraft();
+        togglePreview() {
+            this.haptic(30);
+            const area = document.getElementById('preview-area');
+            const fab = document.getElementById('fab');
+            if(this.state.previewOpen) {
+                area.classList.add('hidden');
+                fab.innerHTML = '<i class="fas fa-eye"></i>';
+                this.state.previewOpen = false;
+            } else {
+                this.processDraftUpdate(); 
+                document.getElementById('live-preview-content').innerHTML = this.generateHTML(this.state.currentDraft);
+                area.classList.remove('hidden');
+                fab.innerHTML = '<i class="fas fa-pen"></i>';
+                this.state.previewOpen = true;
+                setTimeout(() => area.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+            }
+        },
+
+        refreshPreview() {
+            if(!this.state.previewOpen) return;
             document.getElementById('live-preview-content').innerHTML = this.generateHTML(this.state.currentDraft);
-            document.getElementById('preview-area').classList.remove('hidden');
-            document.getElementById('preview-area').scrollIntoView({ behavior: 'smooth' });
         },
 
         exportPDF() {
-            this.updateDraft();
+            this.haptic(50);
+            this.processDraftUpdate();
+            this.saveResume(true); 
             document.getElementById('print-container').innerHTML = this.generateHTML(this.state.currentDraft);
             window.print();
         },
 
-        saveResume() {
-            this.updateDraft();
+        saveResume(silent = false) {
+            this.processDraftUpdate();
             const index = this.state.resumes.findIndex(r => r.id === this.state.currentDraft.id);
             if (index >= 0) this.state.resumes[index] = this.state.currentDraft;
             else this.state.resumes.unshift(this.state.currentDraft);
             this.saveData();
-            alert("Document saved securely to local history.");
+            if(!silent) this.toast("Document archived to Vault.", "save");
         },
 
         renderHistory() {
             const list = document.getElementById('history-list');
-            list.innerHTML = this.state.resumes.length === 0 ? '<p>No resumes saved yet.</p>' : '';
+            list.innerHTML = this.state.resumes.length === 0 ? '<p style="text-align:center; margin-top:20px;">Vault is empty.</p>' : '';
             this.state.resumes.forEach((r, i) => {
                 list.innerHTML += `
-                    <div class="card neumorphic" style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+                    <div class="card neumorphic" style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; padding: 20px;">
                         <div>
-                            <h3 style="margin-bottom:5px; font-size:1rem;">Resume (${r.template})</h3>
-                            <p style="font-size:0.75rem;">Edited: ${r.date}</p>
+                            <h3 style="margin-bottom:5px; font-size:1.05rem;">${r.personal.name || 'Draft'} - ${r.template.toUpperCase()}</h3>
+                            <p style="font-size:0.8rem;">Last edit: ${r.date}</p>
                         </div>
                         <div style="display:flex; gap:10px;">
-                            <button class="btn neumorphic-inset" style="padding:10px; margin:0;" onclick="app.editHistory(${i})"><i class="fas fa-pen"></i></button>
-                            <button class="btn neumorphic-inset" style="padding:10px; margin:0; color:#ff4d4d;" onclick="app.deleteHistory(${i})"><i class="fas fa-trash"></i></button>
+                            <button class="btn neumorphic-inset" style="padding:12px; margin:0; width:auto;" onclick="app.editHistory(${i})"><i class="fas fa-pen"></i></button>
+                            <button class="btn neumorphic-inset" style="padding:12px; margin:0; width:auto; color:#ff4d4d;" onclick="app.deleteHistory(${i})"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>`;
             });
         },
 
         editHistory(index) {
+            this.haptic(20);
             this.state.currentDraft = JSON.parse(JSON.stringify(this.state.resumes[index]));
             this.populateBuilder();
             this.navigate('builder');
+            this.toast("Document loaded.", "folder-open");
         },
 
         deleteHistory(index) {
-            if(confirm("Permanently delete this resume?")) {
+            if(confirm("Permanently erase this document from the Vault?")) {
+                this.haptic([50, 50]);
                 this.state.resumes.splice(index, 1);
                 this.saveData();
                 this.renderHistory();
+                this.toast("Document erased.", "trash");
             }
         },
 
         clearData() {
-            if(confirm("Warning: This deletes all saved resumes permanently.")) {
-                localStorage.removeItem('auraCV_data_v2');
-                this.state = { user: null, resumes:[], currentDraft: null };
+            if(confirm("CRITICAL: This permanently destroys all stored data. Proceed?")) {
+                this.haptic([100, 50, 100]);
+                localStorage.removeItem('auraCV_unparalleled');
+                this.state = { user: null, resumes:[], currentDraft: null, previewOpen: false };
                 this.navigate('login');
             }
         },
 
         exportData() {
+            this.haptic(30);
             const blob = new Blob([JSON.stringify(this.state)], {type: "application/json"});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "AuraCV_Backup.json";
+            a.download = "AuraCV_Vault_Backup.json";
             a.click();
+            this.toast("Data exported.", "download");
         }
     };
 
     window.onload = () => app.init();
 </script>
 </body>
-  </html>
+    </html>
