@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AuraCV | Identity Engine</title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Outfit (UI) & Roboto (ATS PDF) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           🎨 BHAT SOFT MINIMAL DESIGN SYSTEM
+           ========================================= */
+        :root {
+            --bg-color: #f5f5f5;
+            --text-main: #222222;
+            --text-muted: #777777;
+            --accent: #000000;
+            --accent-gold: rgba(255, 215, 0, 0.4);
+            
+            --shadow-out: -6px -6px 12px #ffffff, 6px 6px 12px #d1d1d1;
+            --shadow-in: inset -6px -6px 12px #ffffff, inset 6px 6px 12px #d1d1d1;
+            
+            --border-radius: 20px;
+            --btn-radius: 14px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; font-weight: 300; }
+
+        .neumorphic { background: var(--bg-color); box-shadow: var(--shadow-out); border-radius: var(--border-radius); }
+        .neumorphic-inset { background: var(--bg-color); box-shadow: var(--shadow-in); border-radius: var(--btn-radius); }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
+        .slide-up { animation: slideUp 0.5s ease forwards; }
+        .fade-out { animation: fadeOut 0.5s ease forwards; pointer-events: none; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1, h2, h3 { font-weight: 500; color: var(--accent); }
+        h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+
+        #app { max-width: 600px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
+        .screen { padding: 24px; min-height: 100vh; }
+
+        /* =========================================
+           ⏳ LOADING SCREEN
+           ========================================= */
+        #screen-loading {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loader-aura {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: linear-gradient(135deg, #222, #000);
+            box-shadow: 0 0 20px var(--accent-gold);
+            animation: pulseAura 1.5s infinite ease-in-out;
+        }
+        @keyframes pulseAura {
+            0% { transform: scale(0.8); opacity: 0.6; box-shadow: 0 0 10px var(--accent-gold); }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 40px var(--accent-gold); }
+            100% { transform: scale(0.8); opacity: 0.6; box-shadow: 0 0 10px var(--accent-gold); }
+        }
+
+        /* =========================================
+           🎛️ UI COMPONENTS
+           ========================================= */
+        .btn {
+            display: block; width: 100%; padding: 15px; border: none; background: var(--bg-color);
+            box-shadow: var(--shadow-out); border-radius: var(--btn-radius); color: var(--text-main);
+            font-size: 1rem; font-weight: 500; cursor: pointer; transition: var(--transition); text-align: center; margin-bottom: 15px;
+        }
+        .btn:active { box-shadow: var(--shadow-in); }
+        .btn-primary { background: var(--accent); color: white; box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+        .btn-primary:active { transform: translateY(2px); }
+        .btn-gold { background: linear-gradient(135deg, #222, #000); color: white; box-shadow: 0 0 15px var(--accent-gold); border: 1px solid rgba(255, 215, 0, 0.3); }
+
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); padding-left: 5px; }
+        .input-field { width: 100%; padding: 15px; border: none; background: transparent; font-size: 1rem; color: var(--text-main); outline: none; }
+        textarea.input-field { resize: vertical; min-height: 80px; }
+
+        .card { padding: 20px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 5px; }
+        .stat-grid, .library-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .stat-box, .preset-card { padding: 20px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; }
+        .preset-card i { font-size: 2rem; margin-bottom: 10px; color: var(--text-muted); }
+
+        /* Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px;
+            height: 70px; background: var(--bg-color); display: flex; justify-content: space-around; align-items: center;
+            border-top-left-radius: 25px; border-top-right-radius: 25px; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 0.75rem; gap: 4px; transition: var(--transition); }
+        .nav-item.active { color: var(--accent); font-weight: 500; }
+        .nav-item.active i { filter: drop-shadow(0 0 8px var(--accent-gold)); transform: translateY(-3px); }
+
+        /* Builder Specifcs */
+        .builder-section { border-left: 2px solid transparent; transition: var(--transition); }
+        .builder-section h3 { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; }
+        .array-item { position: relative; padding: 15px; margin-bottom: 15px; }
+        .remove-btn { position: absolute; top: 15px; right: 15px; color: #ff4d4d; background: transparent; border: none; cursor: pointer; }
+
+        /* Template Selector */
+        .template-selector { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
+        .template-option { flex: 0 0 auto; padding: 10px 20px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; box-shadow: var(--shadow-out); }
+        .template-option.active { background: var(--accent); color: white; }
+
+        /* =========================================
+           🎭 CREATOR TAB (BHAT BOYKA)
+           ========================================= */
+        #screen-creator { position: relative; overflow: hidden; background: #050505; color: white; }
+        .aura-wall { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+        .aura-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; animation: float 10s infinite alternate ease-in-out; }
+        .orb-1 { width: 300px; height: 300px; background: rgba(255, 215, 0, 0.3); top: -100px; left: -100px; }
+        .orb-2 { width: 250px; height: 250px; background: rgba(200, 200, 200, 0.2); bottom: -50px; right: -50px; animation-delay: -5s; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.2); } }
+        .creator-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
+        .creator-avatar { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #222, #000); box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; margin-bottom: 20px; }
+        .creator-name { font-size: 2rem; font-weight: 600; letter-spacing: 2px; }
+        .creator-sub { font-size: 0.9rem; color: #aaa; margin-bottom: 30px; font-weight: 300; }
+        .social-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 30px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; text-decoration: none; margin-bottom:10px; width: 250px; backdrop-filter: blur(10px); }
+
+        /* =========================================
+           🖨️ PRINT / ATS EXPORT STYLES
+           ========================================= */
+        #print-container { display: none; }
+        .live-preview-box { width: 100%; height: 400px; border-radius: var(--border-radius); overflow: auto; background: white; box-shadow: var(--shadow-in); padding: 10px; }
+        
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            #app, .bottom-nav { display: none !important; }
+            #print-container { display: block !important; width: 100%; background: white; color: black; }
+        }
+
+        /* ATS-Friendly Minimal Template CSS */
+        .resume-wrapper { padding: 30px; background: white; color: #111; font-family: 'Roboto', Arial, sans-serif; line-height: 1.5; font-size: 11pt; }
+        .res-header { text-align: center; margin-bottom: 15px; border-bottom: 1px solid #000; padding-bottom: 10px; }
+        .res-header h1 { margin: 0; font-size: 18pt; font-weight: 700; color: #000; text-transform: uppercase; letter-spacing: 1px;}
+        .res-contact { font-size: 10pt; color: #333; margin-top: 5px; }
+        .res-summary { margin-bottom: 15px; font-size: 10.5pt; }
+        .res-section { margin-bottom: 15px; }
+        .res-section-title { font-size: 13pt; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-bottom: 8px; color: #000; }
+        .res-item { margin-bottom: 10px; }
+        .res-item-head { display: flex; justify-content: space-between; font-weight: bold; }
+        .res-item-sub { font-style: italic; color: #444; font-size: 10pt; margin-bottom: 4px;}
+        .res-item-desc { font-size: 10.5pt; }
+        .res-skills { font-size: 10.5pt; }
+
+        /* Sidebar Modern Template specific */
+        .tpl-sidebar { display: grid; grid-template-columns: 1fr 2.5fr; gap: 20px; }
+        .tpl-sidebar .res-sidebar { background: #f8f9fa; padding: 15px; border-right: 2px solid #eaeaea; }
+        .tpl-sidebar .res-header { text-align: left; border: none; padding: 0; }
+    </style>
+</head>
+<body>
+
+<!-- ⏳ LOADING SCREEN -->
+<div id="screen-loading">
+    <div class="loader-aura"></div>
+    <h2 style="margin-top: 25px; letter-spacing: 4px;">AuraCV</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">Optimizing Identity Engine...</p>
+</div>
+
+<div id="app" class="hidden">
+    
+    <!-- 1. LOGIN SCREEN -->
+    <div id="screen-login" class="screen">
+        <div style="height: 15vh;"></div>
+        <div class="card neumorphic text-center">
+            <h1 style="font-size: 2.5rem; letter-spacing: 2px;">AuraCV</h1>
+            <p style="margin-bottom: 30px;">Forge your identity into opportunity.</p>
+            <div class="input-group neumorphic-inset"><input type="text" id="login-name" class="input-field" placeholder="Enter your name"></div>
+            <button class="btn btn-primary" onclick="app.login()">Enter Workspace</button>
+            <button class="btn" onclick="app.loginGuest()">Continue as Guest</button>
+        </div>
+    </div>
+
+    <!-- 2. HOME DASHBOARD -->
+    <div id="screen-home" class="screen hidden">
+        <h1 id="welcome-msg">Welcome back.</h1>
+        <p>Let’s build a powerful ATS-optimized resume today.</p>
+
+        <div class="card neumorphic" style="margin-top: 20px;">
+            <h3>Quick Actions</h3>
+            <div style="margin-top: 15px;">
+                <button class="btn btn-primary" onclick="app.navigate('builder'); app.createNewDraft();"><i class="fas fa-plus"></i> Create Blank Resume</button>
+                <button class="btn" onclick="app.navigate('library')"><i class="fas fa-book"></i> Use Professional Preset</button>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-box neumorphic">
+                <h2 id="stat-total" style="font-size: 2rem;">0</h2>
+                <p>Resumes</p>
+            </div>
+            <div class="stat-box neumorphic">
+                <h2 style="font-size: 1.2rem; margin-top:10px;"><i class="fas fa-clock"></i></h2>
+                <p id="stat-last" style="font-size: 0.8rem;">Never</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. LIBRARY (PRESETS) -->
+    <div id="screen-library" class="screen hidden">
+        <h1>Library</h1>
+        <p>Select a professional preset structure.</p>
+        <div class="library-grid">
+            <div class="preset-card neumorphic" onclick="app.usePreset('corporate')">
+                <i class="fas fa-briefcase"></i><h3>Corporate</h3>
+                <p style="font-size: 0.75rem;">Experience & Metrics</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('tech')">
+                <i class="fas fa-code"></i><h3>Tech / IT</h3>
+                <p style="font-size: 0.75rem;">Skills & Projects</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('student')">
+                <i class="fas fa-graduation-cap"></i><h3>Student</h3>
+                <p style="font-size: 0.75rem;">Education & Activities</p>
+            </div>
+            <div class="preset-card neumorphic" onclick="app.usePreset('creative')">
+                <i class="fas fa-paint-brush"></i><h3>Creative</h3>
+                <p style="font-size: 0.75rem;">Portfolio Focus</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. RESUME BUILDER -->
+    <div id="screen-builder" class="screen hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h1>Builder Engine</h1>
+            <button class="btn btn-gold" style="width: auto; padding: 8px 15px; margin: 0; font-size: 0.85rem;" onclick="app.enhanceText()"><i class="fas fa-magic"></i> Smart Enhance</button>
+        </div>
+        <p style="font-size:0.8rem; margin-bottom:15px;"><i class="fas fa-info-circle"></i> Use action verbs and quantifiable metrics.</p>
+
+        <!-- Template Selector -->
+        <div class="template-selector" id="template-selector">
+            <div class="template-option active" onclick="app.setTemplate('minimal')">ATS Clean (1-Col)</div>
+            <div class="template-option" onclick="app.setTemplate('sidebar')">Modern (2-Col)</div>
+        </div>
+
+        <div>
+            <!-- Personal Info (Mandatory) -->
+            <div class="card neumorphic builder-section active">
+                <h3>Contact Info <span style="font-size:0.7rem; font-weight:300; color:#ff4d4d;">*Essential</span></h3>
+                <div class="input-group neumorphic-inset mt-10"><input type="text" id="b-name" class="input-field" placeholder="Full Name" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="email" id="b-email" class="input-field" placeholder="Professional Email" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="tel" id="b-phone" class="input-field" placeholder="Phone Number" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="text" id="b-location" class="input-field" placeholder="City, State" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><input type="url" id="b-linkedin" class="input-field" placeholder="LinkedIn URL" oninput="app.updateDraft()"></div>
+                <div class="input-group neumorphic-inset"><textarea id="b-summary" class="input-field" placeholder="Summary: 2-4 sentences highlighting expertise and key achievements." oninput="app.updateDraft()"></textarea></div>
+            </div>
+
+            <!-- Experience -->
+            <div class="card neumorphic builder-section">
+                <h3>Experience <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('experience')"></i></h3>
+                <p style="font-size:0.7rem; margin-bottom:10px;">Reverse-chronological. Focus on accomplishments, use % and $ metrics.</p>
+                <div id="b-experience-container"></div>
+            </div>
+
+            <!-- Education -->
+            <div class="card neumorphic builder-section">
+                <h3>Education <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('education')"></i></h3>
+                <div id="b-education-container"></div>
+            </div>
+
+            <!-- Skills -->
+            <div class="card neumorphic builder-section">
+                <h3>Core Competencies</h3>
+                <p style="font-size:0.7rem; margin-bottom:10px;">Mix hard skills (Software/Tools) & soft skills (Leadership).</p>
+                <div class="input-group neumorphic-inset"><textarea id="b-skills" class="input-field" placeholder="E.g., Python, Agile Methodology, Strategic Planning, Data Analysis..." oninput="app.updateDraft()"></textarea></div>
+            </div>
+
+            <!-- Projects (Optional) -->
+            <div class="card neumorphic builder-section">
+                <h3>Projects (Optional) <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('projects')"></i></h3>
+                <div id="b-projects-container"></div>
+            </div>
+
+            <!-- Certifications (Optional) -->
+            <div class="card neumorphic builder-section">
+                <h3>Certifications <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('certifications')"></i></h3>
+                <div id="b-certifications-container"></div>
+            </div>
+            
+            <!-- Awards (Optional) -->
+            <div class="card neumorphic builder-section">
+                <h3>Awards & Volunteer <i class="fas fa-plus" style="cursor: pointer; color:var(--accent);" onclick="app.addArrayItem('awards')"></i></h3>
+                <div id="b-awards-container"></div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="app.previewResume()">Live Preview</button>
+        <button class="btn" onclick="app.saveResume()">Save to History</button>
+        <button class="btn btn-gold" onclick="app.exportPDF()"><i class="fas fa-file-pdf"></i> Save as PDF (ATS Ready)</button>
+
+        <div id="preview-area" class="hidden" style="margin-top: 20px;">
+            <h3 style="margin-bottom: 10px;">Document Preview</h3>
+            <div class="live-preview-box" id="live-preview-content"></div>
+        </div>
+    </div>
+
+    <!-- 5. HISTORY -->
+    <div id="screen-history" class="screen hidden">
+        <h1>History</h1>
+        <p>Your saved ATS documents.</p>
+        <div id="history-list" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- 6. PROFILE -->
+    <div id="screen-profile" class="screen hidden">
+        <h1>Settings</h1>
+        <div class="card neumorphic" style="margin-top: 20px;">
+            <div class="input-group neumorphic-inset">
+                <label>Default Name</label>
+                <input type="text" id="p-name" class="input-field" oninput="app.updateProfile()">
+            </div>
+        </div>
+        <div style="margin-top: 30px;">
+            <button class="btn" onclick="app.exportData()"><i class="fas fa-download"></i> Export App Data</button>
+            <button class="btn" style="color: #ff4d4d;" onclick="app.clearData()"><i class="fas fa-trash"></i> Reset Engine</button>
+            <button class="btn" onclick="app.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+
+    <!-- 7. CREATOR TAB -->
+    <div id="screen-creator" class="screen hidden">
+        <div class="aura-wall"><div class="aura-orb orb-1"></div><div class="aura-orb orb-2"></div></div>
+        <div class="creator-content">
+            <div class="creator-avatar"><i class="fas fa-bolt"></i></div>
+            <h1 class="creator-name">BHAT BOYKA</h1>
+            <p class="creator-sub">"Forging identity into opportunity."</p>
+            <a href="https://youtube.com/@aathir_hussain_bhat.?si=28tBVXAnqc0qJfAQ" target="_blank" class="social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="https://share.google/05cqDTY08eQEp74MH" target="_blank" class="social-btn"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://share.google/jWLCjCdUvzcd360cx" target="_blank" class="social-btn"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://github.com/Aathir-Hussain-Bhat" target="_blank" class="social-btn"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://x.com/bhatboyka" target="_blank" class="social-btn"><i class="fab fa-twitter"></i> X (Twitter)</a>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav hidden" id="bottom-nav">
+        <div class="nav-item active" onclick="app.navigate('home')" data-target="home"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-item" onclick="app.navigate('library')" data-target="library"><i class="fas fa-book"></i><span>Library</span></div>
+        <div class="nav-item" onclick="app.navigate('builder')" data-target="builder"><i class="fas fa-pen-nib"></i><span>Create</span></div>
+        <div class="nav-item" onclick="app.navigate('history')" data-target="history"><i class="fas fa-history"></i><span>History</span></div>
+        <div class="nav-item" onclick="app.navigate('profile')" data-target="profile"><i class="fas fa-cog"></i><span>Settings</span></div>
+        <div class="nav-item" onclick="app.navigate('creator')" data-target="creator"><i class="fas fa-star"></i><span>Creator</span></div>
+    </div>
+
+</div>
+
+<!-- EXPORT CONTAINER -->
+<div id="print-container"></div>
+
+<script>
+    const app = {
+        state: { user: null, resumes:[], currentDraft: null },
+        
+        // Smart Enhancer Dictionary (Harvard/Indeed Action Verbs)
+        dictionary: {
+            "\\bmade\\b": "developed",
+            "\\bhelped\\b": "assisted in",
+            "\\bworked on\\b": "contributed to",
+            "\\bbuilt\\b": "engineered",
+            "\\bgot\\b": "achieved",
+            "\\bdid\\b": "executed",
+            "\\bgood\\b": "proficient in",
+            "\\bused\\b": "utilized",
+            "\\bfixed\\b": "resolved",
+            "\\bmanaged\\b": "orchestrated",
+            "\\bchanged\\b": "optimized",
+            "\\bstarted\\b": "initiated",
+            "\\btalked to\\b": "negotiated with",
+            "\\bwas responsible for\\b": "spearheaded",
+            "\\bled\\b": "directed"
+        },
+
+        init() {
+            setTimeout(() => {
+                document.getElementById('screen-loading').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('screen-loading').style.display = 'none';
+                    document.getElementById('app').classList.remove('hidden');
+                    document.getElementById('app').classList.add('fade-in');
+                    this.loadData();
+                    if (this.state.user) this.navigate('home');
+                    else this.navigate('login');
+                }, 500);
+            }, 1800);
+        },
+
+        loadData() {
+            const data = localStorage.getItem('auraCV_data_v2');
+            if (data) {
+                const parsed = JSON.parse(data);
+                this.state.user = parsed.user;
+                this.state.resumes = parsed.resumes ||[];
+            }
+        },
+
+        saveData() {
+            localStorage.setItem('auraCV_data_v2', JSON.stringify({ user: this.state.user, resumes: this.state.resumes }));
+        },
+
+        login() {
+            const name = document.getElementById('login-name').value.trim();
+            if (name) { this.state.user = name; this.saveData(); this.navigate('home'); }
+            else alert("Please enter a name.");
+        },
+
+        loginGuest() { this.state.user = "Guest"; this.saveData(); this.navigate('home'); },
+        logout() { this.state.user = null; this.saveData(); this.navigate('login'); },
+
+        navigate(screenId) {
+            document.querySelectorAll('.screen:not(#screen-loading)').forEach(el => { el.classList.add('hidden'); el.classList.remove('fade-in'); });
+            const target = document.getElementById(`screen-${screenId}`);
+            target.classList.remove('hidden');
+            target.classList.add('fade-in');
+
+            const nav = document.getElementById('bottom-nav');
+            if (screenId === 'login') nav.classList.add('hidden');
+            else {
+                nav.classList.remove('hidden');
+                document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+                const activeNav = document.querySelector(`.nav-item[data-target="${screenId}"]`);
+                if(activeNav) activeNav.classList.add('active');
+            }
+
+            if (screenId === 'home') this.renderHome();
+            if (screenId === 'history') this.renderHistory();
+            if (screenId === 'profile') document.getElementById('p-name').value = this.state.user || '';
+        },
+
+        renderHome() {
+            document.getElementById('welcome-msg').innerText = `Welcome back, ${this.state.user}.`;
+            document.getElementById('stat-total').innerText = this.state.resumes.length;
+            document.getElementById('stat-last').innerText = this.state.resumes.length > 0 ? this.state.resumes[0].date : 'Never';
+        },
+
+        updateProfile() { this.state.user = document.getElementById('p-name').value; this.saveData(); },
+
+        createNewDraft() {
+            this.state.currentDraft = {
+                id: Date.now().toString(),
+                date: new Date().toLocaleDateString(),
+                template: 'minimal',
+                personal: { name: this.state.user, email: '', phone: '', location: '', linkedin: '', summary: '' },
+                experience: [], education: [], skills: '', projects: [], certifications:[], awards:[]
+            };
+            this.populateBuilder();
+        },
+
+        usePreset(type) {
+            this.createNewDraft();
+            const d = this.state.currentDraft;
+            if (type === 'corporate') {
+                d.personal.summary = "Results-driven professional with 5+ years of experience driving operational success. Proven track record of increasing revenue by 20% and leading cross-functional teams.";
+                d.experience.push({ company: "Global Corp", role: "Operations Manager", date: "2019 - Present", desc: "• Spearheaded new workflow system, reducing costs by 15%.\n• Managed a team of 12 members." });
+            } else if (type === 'tech') {
+                d.personal.summary = "Innovative Software Engineer specializing in scalable web applications. Proficient in modern JS frameworks and cloud architecture.";
+                d.skills = "JavaScript (React, Node.js), Python, AWS, Agile Development, Problem Solving";
+                d.projects.push({ name: "E-Commerce API", url: "github.com/example", desc: "Engineered a RESTful API serving 10k+ daily requests." });
+            } else if (type === 'student') {
+                d.personal.summary = "Highly motivated honors student seeking an entry-level position to leverage strong analytical skills and academic foundation.";
+                d.education.push({ school: "State University", degree: "B.S. Business Admin (GPA: 3.8)", date: "May 2024" });
+                d.awards.push({ title: "Dean's List", issuer: "State University", desc: "Achieved top 5% of class." });
+            }
+            this.populateBuilder();
+            this.navigate('builder');
+        },
+
+        populateBuilder() {
+            const d = this.state.currentDraft;
+            ['name','email','phone','location','linkedin','summary'].forEach(f => {
+                document.getElementById(`b-${f}`).value = d.personal[f] || '';
+            });
+            document.getElementById('b-skills').value = d.skills || '';
+            this.setTemplate(d.template || 'minimal');
+            this.renderArrays();
+            document.getElementById('preview-area').classList.add('hidden');
+        },
+
+        updateDraft() {
+            if (!this.state.currentDraft) return;
+            const d = this.state.currentDraft;['name','email','phone','location','linkedin','summary'].forEach(f => {
+                d.personal[f] = document.getElementById(`b-${f}`).value;
+            });
+            d.skills = document.getElementById('b-skills').value;
+        },
+
+        setTemplate(tpl) {
+            this.state.currentDraft.template = tpl;
+            document.querySelectorAll('.template-option').forEach(el => el.classList.remove('active'));
+            const options = document.querySelectorAll('.template-option');
+            if(tpl === 'minimal') options[0].classList.add('active');
+            if(tpl === 'sidebar') options[1].classList.add('active');
+        },
+
+        addArrayItem(type) {
+            const schema = {
+                experience: { company: '', role: '', date: '', desc: '' },
+                education: { school: '', degree: '', date: '' },
+                projects: { name: '', url: '', desc: '' },
+                certifications: { name: '', issuer: '', date: '' },
+                awards: { title: '', issuer: '', desc: '' }
+            };
+            this.state.currentDraft[type] = this.state.currentDraft[type] || [];
+            this.state.currentDraft[type].push(schema[type]);
+            this.renderArrays();
+        },
+
+        removeArrayItem(type, index) { this.state.currentDraft[type].splice(index, 1); this.renderArrays(); },
+        updateArrayItem(type, index, field, value) { this.state.currentDraft[type][index][field] = value; },
+
+        renderArrays() {
+            const renderInputs = (type, fields, placeholders) => {
+                const container = document.getElementById(`b-${type}-container`);
+                container.innerHTML = '';
+                (this.state.currentDraft[type] ||[]).forEach((item, i) => {
+                    let html = `<div class="array-item neumorphic-inset"><button class="remove-btn" onclick="app.removeArrayItem('${type}', ${i})"><i class="fas fa-times"></i></button>`;
+                    fields.forEach((f, idx) => {
+                        if (f === 'desc') {
+                            html += `<textarea class="input-field" placeholder="${placeholders[idx]}" oninput="app.updateArrayItem('${type}', ${i}, '${f}', this.value)">${item[f]}</textarea>`;
+                        } else {
+                            html += `<input type="text" class="input-field" placeholder="${placeholders[idx]}" value="${item[f]}" oninput="app.updateArrayItem('${type}', ${i}, '${f}', this.value)">`;
+                        }
+                    });
+                    html += `</div>`;
+                    container.innerHTML += html;
+                });
+            };
+
+            renderInputs('experience', ['company', 'role', 'date', 'desc'],['Company', 'Job Title', 'Dates (e.g. 2020 - 2023)', 'Bullet points (Start with verbs, use % metrics)']);
+            renderInputs('education', ['school', 'degree', 'date'],['Institution', 'Degree / Major', 'Graduation Year']);
+            renderInputs('projects', ['name', 'url', 'desc'],['Project Name', 'Link (GitHub/Live)', 'Description']);
+            renderInputs('certifications',['name', 'issuer', 'date'], ['Cert Name', 'Issuing Body', 'Year']);
+            renderInputs('awards',['title', 'issuer', 'desc'], ['Award/Role Title', 'Organization/Issuer', 'Description']);
+        },
+
+        enhanceText() {
+            let summary = document.getElementById('b-summary').value;
+            for (let [key, val] of Object.entries(this.dictionary)) summary = summary.replace(new RegExp(key, "gi"), val);
+            document.getElementById('b-summary').value = summary;
+            
+            ['experience', 'projects', 'awards'].forEach(type => {
+                if(this.state.currentDraft[type]) {
+                    this.state.currentDraft[type].forEach(item => {
+                        if(item.desc) {
+                            let text = item.desc;
+                            for (let[key, val] of Object.entries(this.dictionary)) text = text.replace(new RegExp(key, "gi"), val);
+                            item.desc = text;
+                        }
+                    });
+                }
+            });
+            
+            this.updateDraft(); this.renderArrays();
+            const btn = document.querySelector('.btn-gold');
+            btn.innerHTML = '<i class="fas fa-check"></i> Enhanced';
+            setTimeout(() => btn.innerHTML = '<i class="fas fa-magic"></i> Smart Enhance', 2000);
+        },
+
+        generateHTML(draft) {
+            const p = draft.personal;
+            let contactArr =[];
+            if(p.email) contactArr.push(p.email);
+            if(p.phone) contactArr.push(p.phone);
+            if(p.location) contactArr.push(p.location);
+            if(p.linkedin) contactArr.push(p.linkedin);
+            
+            const headerStr = `
+                <div class="res-header">
+                    <h1>${p.name || 'Your Name'}</h1>
+                    <div class="res-contact">${contactArr.join(' &nbsp;|&nbsp; ')}</div>
+                </div>
+                ${p.summary ? `<div class="res-summary"><b>Summary:</b> ${p.summary}</div>` : ''}`;
+
+            const genSection = (title, data, renderer) => {
+                if (!data || data.length === 0) return '';
+                return `
+                <div class="res-section">
+                    <div class="res-section-title">${title}</div>
+                    ${data.map(renderer).join('')}
+                </div>`;
+            };
+
+            const expStr = genSection('Professional Experience', draft.experience, e => `
+                <div class="res-item">
+                    <div class="res-item-head"><span><b>${e.role}</b>, ${e.company}</span> <span>${e.date}</span></div>
+                    <div class="res-item-desc">${e.desc ? e.desc.split('\n').map(l => l.trim() ? `• ${l.replace(/^•\s*/,'')}<br>` : '').join('') : ''}</div>
+                </div>`);
+
+            const eduStr = genSection('Education', draft.education, e => `
+                <div class="res-item">
+                    <div class="res-item-head"><span><b>${e.degree}</b></span> <span>${e.date}</span></div>
+                    <div class="res-item-sub">${e.school}</div>
+                </div>`);
+
+            const projStr = genSection('Projects', draft.projects, p => `
+                <div class="res-item">
+                    <div class="res-item-head"><span><b>${p.name}</b> ${p.url ? `| <a href="${p.url}" style="color:#000;">Link</a>` : ''}</span></div>
+                    <div class="res-item-desc">${p.desc}</div>
+                </div>`);
+
+            const certStr = genSection('Certifications', draft.certifications, c => `
+                <div class="res-item">
+                    <div><b>${c.name}</b> — ${c.issuer} (${c.date})</div>
+                </div>`);
+
+            const awdStr = genSection('Awards & Volunteering', draft.awards, a => `
+                <div class="res-item">
+                    <div><b>${a.title}</b> — ${a.issuer}</div>
+                    <div class="res-item-desc">${a.desc}</div>
+                </div>`);
+
+            const skillStr = draft.skills ? `<div class="res-section"><div class="res-section-title">Core Competencies</div><div class="res-skills">${draft.skills}</div></div>` : '';
+
+            let html = `<div class="resume-wrapper ${draft.template === 'sidebar' ? 'tpl-sidebar' : ''}">`;
+            
+            if (draft.template === 'sidebar') {
+                html += `
+                    <div class="res-sidebar">
+                        ${headerStr}
+                        ${skillStr}
+                        ${eduStr}
+                        ${certStr}
+                    </div>
+                    <div class="res-main">
+                        ${expStr}
+                        ${projStr}
+                        ${awdStr}
+                    </div>`;
+            } else {
+                html += headerStr + expStr + eduStr + projStr + certStr + awdStr + skillStr;
+            }
+            html += `</div>`;
+            return html;
+        },
+
+        previewResume() {
+            this.updateDraft();
+            document.getElementById('live-preview-content').innerHTML = this.generateHTML(this.state.currentDraft);
+            document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-area').scrollIntoView({ behavior: 'smooth' });
+        },
+
+        exportPDF() {
+            this.updateDraft();
+            document.getElementById('print-container').innerHTML = this.generateHTML(this.state.currentDraft);
+            window.print();
+        },
+
+        saveResume() {
+            this.updateDraft();
+            const index = this.state.resumes.findIndex(r => r.id === this.state.currentDraft.id);
+            if (index >= 0) this.state.resumes[index] = this.state.currentDraft;
+            else this.state.resumes.unshift(this.state.currentDraft);
+            this.saveData();
+            alert("Document saved securely to local history.");
+        },
+
+        renderHistory() {
+            const list = document.getElementById('history-list');
+            list.innerHTML = this.state.resumes.length === 0 ? '<p>No resumes saved yet.</p>' : '';
+            this.state.resumes.forEach((r, i) => {
+                list.innerHTML += `
+                    <div class="card neumorphic" style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+                        <div>
+                            <h3 style="margin-bottom:5px; font-size:1rem;">Resume (${r.template})</h3>
+                            <p style="font-size:0.75rem;">Edited: ${r.date}</p>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn neumorphic-inset" style="padding:10px; margin:0;" onclick="app.editHistory(${i})"><i class="fas fa-pen"></i></button>
+                            <button class="btn neumorphic-inset" style="padding:10px; margin:0; color:#ff4d4d;" onclick="app.deleteHistory(${i})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>`;
+            });
+        },
+
+        editHistory(index) {
+            this.state.currentDraft = JSON.parse(JSON.stringify(this.state.resumes[index]));
+            this.populateBuilder();
+            this.navigate('builder');
+        },
+
+        deleteHistory(index) {
+            if(confirm("Permanently delete this resume?")) {
+                this.state.resumes.splice(index, 1);
+                this.saveData();
+                this.renderHistory();
+            }
+        },
+
+        clearData() {
+            if(confirm("Warning: This deletes all saved resumes permanently.")) {
+                localStorage.removeItem('auraCV_data_v2');
+                this.state = { user: null, resumes:[], currentDraft: null };
+                this.navigate('login');
+            }
+        },
+
+        exportData() {
+            const blob = new Blob([JSON.stringify(this.state)], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "AuraCV_Backup.json";
+            a.click();
+        }
+    };
+
+    window.onload = () => app.init();
+</script>
+</body>
+  </html>
